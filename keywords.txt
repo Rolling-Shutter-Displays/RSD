@@ -1,0 +1,45 @@
+# -----------------------------------------
+# Syntax colouring
+# -----------------------------------------
+
+# Datatypes (such as objects)
+RSD	KEYWORD1
+draw	KEYWORD1
+
+#Methods / functions
+begin	KEYWORD2
+beginDraw	KEYWORD2
+endDraw	KEYWORD2
+putBar	KEYWORD2
+clearBar	KEYWORD2
+clearChannel	KEYWORD2
+fillChannel	KEYWORD2
+clearScreen	KEYWORD2
+fillScreen	KEYWORD2
+attachDraw	KEYWORD2
+getTick	KEYWORD2
+getLastTick	KEYWORD2
+getPeriod	KAYOWRD2
+getFrequency KEYWORD2
+getLowerTick	KEYWORD2
+getHigherTick	KEYWORD2
+getLowerLastTick	KEYWORD2
+getHigherLastTick	KEYWORD2
+setTick	KEYWORD2
+setLastTick	KEYWORD2
+changePos	KEYWORD2
+
+# Constants
+BWIDTH	LITERAL1
+WIDTH	LITERAL1
+COMMON_CATHODE	LITERAL1
+COMMON_ANODE	LITERAL1
+BLACK	LITERAL1
+RED	LITERAL1
+GREEN	LITERAL1
+BLUE	LITERAL1
+YELLOW	LITERAL1
+CYAN	LITERAL1
+MAGENTA	LITERAL1
+WHITE	LITERAL1
+colour	LITERAL1
