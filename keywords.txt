@@ -19,7 +19,7 @@ fillScreen	KEYWORD2
 attachDraw	KEYWORD2
 getTick	KEYWORD2
 getLastTick	KEYWORD2
-getPeriod	KAYOWRD2
+getPeriod	KEYWORD2
 getFrequency KEYWORD2
 getLowerTick	KEYWORD2
 getHigherTick	KEYWORD2
