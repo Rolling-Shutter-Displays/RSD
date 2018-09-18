@@ -103,7 +103,7 @@ class RSD {
 		}
 
 		static inline bool getChannel(uint8_t *channel, uint16_t _pos) {
-			return channel[_pos / 8]&&(1 << _pos % 8) ? true : false;
+			return channel[_pos / 8]&(1 << _pos % 8) ? true : false;
 		}
 
 		static colour getBar(uint16_t _pos);
