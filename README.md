@@ -4,21 +4,21 @@
 
 ![RSD Videos]()
 
-###¿Qué es un Rolling Shutter Display (RSD)?
+### ¿Qué es un Rolling Shutter Display (RSD)?
 
-###Circuito/Conexionado/Esquemático/Configuración básica
+### Circuito/Conexionado/Esquemático/Configuración básica
 
 ![Fritzing schematic]()
 
-###Instalación de la librería
+### Instalación de la librería
 
-###Cámara
+### Cámara
 
-###Uso de la librería
+### Uso de la librería
 
-###FAQ
+### FAQ
 
-###Manifiesto del proyecto
+### Manifiesto del proyecto
 
 ---
 
