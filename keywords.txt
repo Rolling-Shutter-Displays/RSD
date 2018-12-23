@@ -10,8 +10,8 @@ draw	KEYWORD1
 begin	KEYWORD2
 beginDraw	KEYWORD2
 endDraw	KEYWORD2
-putBar	KEYWORD2
-clearBar	KEYWORD2
+putLine	KEYWORD2
+clearLine	KEYWORD2
 clearChannel	KEYWORD2
 fillChannel	KEYWORD2
 clearScreen	KEYWORD2
