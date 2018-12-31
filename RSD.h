@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   #include "WProgram.h"
 #endif
 
+#include "Channel.h"
 
 #define BWIDTH 32 //number of bytes
 #define WIDTH ( BWIDTH * 8 ) //number of lines (bits)
@@ -30,6 +31,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #define F_CAM 30 //Assumes that the frequency of the camera is 30 hz
 #define TICK F_CPU / ( F_CAM * WIDTH ) //initial frequency
+
+#define MAX_CHANNELS 12
 
 //Some kind of doble buffer (db) video memory, it's *relative* safe to write here
 //to be truly safe we need to implement some sort of signaling
@@ -43,7 +46,13 @@ extern uint8_t dbB[ BWIDTH ];
 		   2: Beging of frame, from library to scketch, ready for process, quick go! */
 extern volatile uint8_t frameStatus;
 extern volatile uint32_t frameCount;
-extern volatile uint16_t frameLost; 
+extern volatile uint32_t frameLost; 
+
+///---> Experimental
+static Channel *channels[MAX_CHANNELS];
+
+static uint8_t channelsCount = 0;
+///<---
 
 //Callback function types
 extern "C" {
@@ -62,6 +71,12 @@ class RSD {
         // Begin function. Needs to be called in the setup()
         
 		static void begin( uint8_t pinR , uint8_t pinG , uint8_t pinB , common_type commonType = COMMON_ANODE );
+        
+        static void begin( uint8_t f_cam , uint8_t _bwidth );
+        
+        ///---> Experimental
+        static void attachChannel ( Channel ch );
+        ///<---
 
 		// Update function. Needs to be called in the loop() 
         

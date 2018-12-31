@@ -50,16 +50,17 @@ uint8_t dbB[ BWIDTH ];
 		/* 0: Busy, not copy, from scketch to library, processing over dataBuffers
 		   1: Ready for copy, from scketch to library, end of processing
 		   2: Beging of frame, from library to scketch, ready for process, quick go! */
-volatile uint8_t frameStatus = 1; 
+volatile uint8_t frameStatus = 1;
+volatile uint8_t currentBuffer = 0;
 volatile uint32_t frameCount = 0;
-volatile uint16_t frameLost = 0;
+volatile uint32_t frameLost = 0;
 
 //This variable will hold the function acting as event source.
 static callbackFunction _draw;
 
 //Interrupt rutine, all the magic happens here
 ISR( TIMER1_COMPA_vect ) {
-	
+    	
 	//Calculate the bit position in the memory that now we need to looking for
 	//May be this could work better using pointers, isn't?
 	uint8_t idx =  pos / 8;
@@ -67,6 +68,30 @@ ISR( TIMER1_COMPA_vect ) {
 
 	//Depends of the led type, for a 1 in memory (on), we need to turn on or turn off
 	//the pins, acting like a source current or sink current respectively
+    
+    //---> Experimental 
+    
+    for ( uint8_t i = 0 ; i < channelsCount ; i++ ) {
+        
+        if ( channels[i]->ledType ) {
+            
+            if ( bitmask & ( *( channels[i]->buffer[currentBuffer] + idx ) ) ) {
+                *(channels[i]->pinPort) &= ~( channels[i]->pinMask );
+            } else {
+                *(channels[i]->pinPort) |= channels[i]->pinMask;
+            }
+        } else {
+            if ( bitmask & ( *( channels[i]->buffer[currentBuffer] + idx ) ) ) {
+                *(channels[i]->pinPort) |= channels[i]->pinMask;
+            } else {
+                *(channels[i]->pinPort) &= ~( channels[i]->pinMask );
+            }
+        }
+    }
+    
+    //<---
+    
+    /*
   	
   	if (led_type) { //If led_type = 1 = COMMON_ANODE
 
@@ -110,7 +135,8 @@ ISR( TIMER1_COMPA_vect ) {
     		*pinB_port &= ~( pinB_mask );	
   		}
   	}
-  	
+  	*/
+    
   	//Increment the position
   	pos++;
 
@@ -132,15 +158,50 @@ ISR( TIMER1_COMPA_vect ) {
     	//OCR1A = tick;
         
     	pos = 0;
-        frameCount++;
+        
         
         if( frameStatus == 1 ) { //And the buffer is ready to copy
-      		for( uint8_t i = 0 ; i < BWIDTH ; i++ ) { //Copy the buffer to "video" memory
+      		
+            /*
+            for( uint8_t i = 0 ; i < BWIDTH ; i++ ) { //Copy the buffer to "video" memory
         		dfR[i] = dbR[i]; 
         		dfG[i] = dbG[i]; 
         		dfB[i] = dbB[i]; 
             }
+            */
+            //---> Experimental : I don't want copy buffers inside the ISR rutine, insted i want to swap pointers
+            //For do this, i need a buffer that's previuosly staged. Copy buffers is done in the beging of update() function
+            //What i need is a pointer to pointer
             
+            //What i want is know as Page flipping. Search for Multiple Buffering in wikipedia
+            
+            //Why why why? It's seems that i can't call a function of an instance in the ISR, that's sad thing
+            
+            //Yes, succesufull, the way of accesing is through pointers, that's why work when we access to memory.
+            
+            for( uint8_t i = 0 ; i < channelsCount ; i++ ) {
+                *( channels[i]->currentBufferP ) = currentBuffer;
+            }
+            
+            currentBuffer = 1 - currentBuffer;
+            
+            /* And that's the final trick, i can access to an variable of an instance through a pointer of that instance 
+             * pointing to the variable in question. Tricky and not fully eficcient, but it's works... finally
+            
+            It's a hard question see:
+            http://forum.arduino.cc/index.php?topic=171219.0
+            https://www.avrfreaks.net/forum/isr-and-c
+            http://processors.wiki.ti.com/index.php/Invoke_a_C%2B%2B_Class_Member_Function_from_an_Interrupt
+            https://www.avrfreaks.net/forum/linking-class-member-function-isr
+            https://waterproofman.wordpress.com/2007/02/07/avr-interrupts-in-c/
+            
+            Invaluable help in this excelent book:
+            http://www.gameprogrammingpatterns.com/double-buffer.html
+            */
+            
+            
+            //<---
+            frameCount++;
             //Tells to scketch that is a good moment for begin a process over buffers //This is the right place?
             frameStatus = 2;
         } else {
@@ -150,7 +211,7 @@ ISR( TIMER1_COMPA_vect ) {
     	// lost frames . 10/12/18 Okey.
     	
   	}
-  
+
 }
 
 
@@ -163,21 +224,21 @@ void RSD::begin( uint8_t pinR , uint8_t pinG , uint8_t pinB , common_type common
 	//Save the led type
   	led_type = commonType;
 	
-	//Middle level arduino functions, coverts the number of the pin, to the
+	//Middle level arduino functions, converts the number of the pin, to the
 	//respectly port and bitmask, needs for quick access in the interrupt rutine
-	pinR_port = portOutputRegister(digitalPinToPort(pin_R));
-  	pinR_mask = digitalPinToBitMask(pin_R);
+	pinR_port = portOutputRegister( digitalPinToPort( pin_R ) );
+  	pinR_mask = digitalPinToBitMask( pin_R );
 
-  	pinG_port = portOutputRegister(digitalPinToPort(pin_G));
-  	pinG_mask = digitalPinToBitMask(pin_G);
+  	pinG_port = portOutputRegister( digitalPinToPort( pin_G ) );
+  	pinG_mask = digitalPinToBitMask( pin_G );
 
-  	pinB_port = portOutputRegister(digitalPinToPort(pin_B));
-  	pinB_mask = digitalPinToBitMask(pin_B);
+  	pinB_port = portOutputRegister( digitalPinToPort( pin_B ) );
+  	pinB_mask = digitalPinToBitMask( pin_B );
 
 	//Set the outputs
-	pinMode(pin_R, OUTPUT);
-  	pinMode(pin_G, OUTPUT);
-  	pinMode(pin_B, OUTPUT);
+	pinMode( pin_R , OUTPUT );
+  	pinMode( pin_G , OUTPUT );
+  	pinMode( pin_B , OUTPUT );
 
   	//Initialize the timer
 	RSD:initTimer1();
@@ -186,14 +247,26 @@ void RSD::begin( uint8_t pinR , uint8_t pinG , uint8_t pinB , common_type common
 	_draw = NULL;
 }
 
+void RSD::begin( uint8_t f_cam , uint8_t _bwidth ) {
+    //Initialize the timer
+	RSD:initTimer1();
+}
+
+///---> Experimental
+void RSD::attachChannel ( Channel ch ) {
+    channels[ channelsCount ] = &ch;
+    channelsCount++;
+}
+///<---
+
 void RSD::initTimer1(){
 	TCCR1A = 0; // Timer/Counter1 Control Register A, reset
 	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
-	TCCR1B |= (1<<WGM12); //CTC w/ TOP in 0CRA
-	TCCR1B |= (1<<CS10);  //No preescaling F_CPU (fine tunning)
+	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
+	TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
 	OCR1A = tick;
 	last = tick;
-	TIMSK1 |= (1<<OCIE1A); //Set Output Compare A Match Interrupt Enable
+	TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
 }
 
 //Tunnig functions
@@ -215,14 +288,14 @@ uint16_t RSD::getLastTick() {
 }
 
 uint16_t RSD::getLowerLastTick() {
-	return	tick - (WIDTH - 1); //It's right?
+	return	tick - ( WIDTH - 1 ); //It's right?
 }
 
 uint16_t RSD::getHigherLastTick() {
-	return	tick + (WIDTH - 1);
+	return	tick + ( WIDTH - 1 );
 }
 
-bool RSD::setTick(int _tick) {
+bool RSD::setTick( int _tick ) {
 
 	if( ( _tick > getLowerTick() ) &&	(  _tick < getHigherTick() ) ) {
 		tick = _tick;
@@ -265,7 +338,18 @@ void RSD::changePos(bool direction) {
 
 void RSD::update() {
 	if ( frameStatus == 2 ) {
-		frameStatus = 0;
+        
+        frameStatus = 0;
+		
+        //---> Experimental: Copy channels buffers
+        
+        //What i want is know as Page flipping. Search for Multiple Buffering in wikipedia
+        /*
+        for ( uint8_t i = 0 ; i < channelsCount ; i++ ) {
+            channels[i]->copyBuffers();
+        }
+        */
+        //<---
 		_draw();
 		frameStatus = 1;
 	}
