@@ -16,35 +16,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "RSD.h"
 
-//The pin numbers and the type of led
-static uint8_t pin_R, pin_G, pin_B;
-static volatile common_type led_type;
-
-//For fast access to drive the pins in the interrupt rutine
-static volatile uint8_t *pinR_port;
-static volatile uint8_t pinR_mask;
-
-static volatile uint8_t *pinG_port;
-static volatile uint8_t pinG_mask;
-
-static volatile uint8_t *pinB_port;
-static volatile uint8_t pinB_mask;
-
 //Sync variables for the timer
 static volatile uint16_t pos = 0;
 static volatile uint16_t tick = TICK;
 static volatile uint16_t last = TICK;
-
-//"Video" memory for each channel (df for dataFrame)
-static volatile uint8_t dfR[ BWIDTH ];
-static volatile uint8_t dfG[ BWIDTH ];
-static volatile uint8_t dfB[ BWIDTH ];
-
-// Some kind of doble buffer video memory (db for dataBuffer or doubleBuffer),
-// it's *relative* safe to write here to be truly safe we need to implement some sort of signaling
-uint8_t dbR[ BWIDTH ];
-uint8_t dbG[ BWIDTH ];
-uint8_t dbB[ BWIDTH ];
 
 //Signalig variable
 		/* 0: Busy, not copy, from scketch to library, processing over dataBuffers
@@ -215,6 +190,7 @@ ISR( TIMER1_COMPA_vect ) {
 }
 
 
+/*
 void RSD::begin( uint8_t pinR , uint8_t pinG , uint8_t pinB , common_type commonType ) {
 	//Save the numers pins
 	pin_R = pinR;
@@ -247,10 +223,13 @@ void RSD::begin( uint8_t pinR , uint8_t pinG , uint8_t pinB , common_type common
 	_draw = NULL;
 }
 
+*/
+
 void RSD::begin( uint8_t f_cam , uint8_t _bwidth ) {
     //Initialize the timer
 	RSD:initTimer1();
 }
+
 
 ///---> Experimental
 void RSD::attachChannel ( Channel ch ) {
@@ -341,17 +320,9 @@ void RSD::update() {
         
         frameStatus = 0;
 		
-        //---> Experimental: Copy channels buffers
-        
-        //What i want is know as Page flipping. Search for Multiple Buffering in wikipedia
-        /*
-        for ( uint8_t i = 0 ; i < channelsCount ; i++ ) {
-            channels[i]->copyBuffers();
-        }
-        */
-        //<---
-		_draw();
-		frameStatus = 1;
+        _draw();
+		
+        frameStatus = 1;
 	}
 }
 
@@ -360,148 +331,3 @@ void RSD::attachDraw( callbackFunction newFunction ) {
 	_draw = newFunction;
 } // attachDraw
 
-
-// Graphic screen primitives
-
-// Drawing primitives
-
-void RSD::putLine( colour c , uint16_t _pos ) { //Stupid way but, whaterever
-												//Try rearranging the colors order
-	switch( c ) {
-		case BLACK:
-			clearLine( dbR , _pos );
-			clearLine( dbG , _pos );
-			clearLine( dbB , _pos );
-			break;
-		case RED:
-			putLine( dbR , _pos );
-			clearLine( dbG , _pos );
-			clearLine( dbB , _pos );
-			break;
-		case GREEN:
-			clearLine( dbR , _pos );
-			putLine( dbG , _pos );
-			clearLine( dbB , _pos );
-			break;
-		case BLUE:
-			clearLine( dbR , _pos );
-			clearLine( dbG , _pos );
-			putLine( dbB , _pos );
-			break;
-		case YELLOW:
-			putLine( dbR , _pos );
-			putLine( dbG , _pos );
-			clearLine( dbB , _pos );
-			break;
-		case CYAN:
-			clearLine( dbR , _pos );
-			putLine( dbG , _pos );
-			putLine( dbB , _pos );
-			break;
-		case MAGENTA:
-			putLine( dbR , _pos );
-			clearLine( dbG , _pos );
-			putLine( dbB , _pos );
-			break;
-		case WHITE:
-			putLine( dbR , _pos );
-			putLine( dbG , _pos );
-			putLine( dbB , _pos );
-			break;
-		default: break;
-	}
-
-    
-}
-
-void RSD::fillRange( colour c , uint16_t begin , uint16_t end ) {
-    if ( !( begin >= WIDTH ) || ( end >= WIDTH ) || ( begin > end ) ) { 
-        while ( end > begin ) {
-            RSD::putLine( c , end );
-            end--;
-        }
-        RSD::putLine( c , begin );
-    }
-}
-
-void RSD::fillScreen( colour c = WHITE ) {
-	
-    switch( c ) {
-		case BLACK:
-			clearChannel( dbR );
-			clearChannel( dbG );
-			clearChannel( dbB );
-			break;
-        case RED:
-			fillChannel( dbR );
-			clearChannel( dbG );
-			clearChannel( dbB );
-			break;
-        case GREEN:
-			clearChannel( dbR );
-			fillChannel( dbG );
-			clearChannel( dbB );
-			break;
-		case BLUE:
-			clearChannel( dbR );
-			clearChannel( dbG );
-			fillChannel( dbB );
-			break;
-		case YELLOW:
-			fillChannel( dbR );
-			fillChannel( dbG );
-			clearChannel( dbB );
-			break;
-		case CYAN:
-			clearChannel( dbR );
-			fillChannel( dbG );
-			fillChannel( dbB );
-			break;
-		case MAGENTA:
-			fillChannel( dbR );
-			clearChannel( dbG );
-			fillChannel( dbB );
-			break;
-		case WHITE:
-			fillChannel( dbR );
-			fillChannel( dbG );
-			fillChannel( dbB );
-			break;
-		default: break;
-	}
-}
-
-// Get functions
-
-colour RSD::getLine( uint16_t _pos ) { //Stupid way but, whaterever
-									//Try rearranging the colors order
-	if(getChannel(dbR,_pos)) {
-		
-		if(getChannel( dbG , _pos ) ) {
-			if ( getChannel( dbB , _pos ) ) {
-				return WHITE;
-			} else {
-				return YELLOW;
-			}
-		} else {
-			if ( getChannel( dbB , _pos ) ) {
-				return MAGENTA;
-			} else {
-				return RED;
-			}
-		}
-
-	} else if( getChannel( dbG, _pos ) ) {
-		
-		if( getChannel( dbB, _pos) ) {
-			return CYAN;
-		} else {
-			return GREEN;
-		}
-
-	} else if ( getChannel( dbB , _pos ) ) {
-			return BLUE;
-		} else {
-			return BLACK;
-	}
-}

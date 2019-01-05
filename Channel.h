@@ -1,28 +1,32 @@
-#include "Arduino.h"
+#ifndef __Channel_RSD_library__
+#define __Channel_RSD_library__
 
-typedef enum { COMMONN_CATHODE = 0, COMMONN_ANODE = 1 } commonn_type;
+#if (ARDUINO >=100)
+  #include "Arduino.h"
+#else
+  #include "WProgram.h"
+#endif
 
-extern "C" {
-  typedef void ( *isr )( void );
-}
+typedef enum { COMMON_CATHODE = 0, COMMON_ANODE = 1 } common_type;
 
 class Channel {
 
 public:
     
-    uint8_t *pinPort;
+    uint8_t * pinPort;
     uint8_t pinMask;
-    commonn_type ledType;
+    common_type ledType;
     uint8_t bwidth;
     
-    uint8_t *buffer[2];
+    //double buffer video memory
+    uint8_t * buffer[ 2 ];
     
     uint8_t currentBuffer;
-    uint8_t * currentBufferP = &currentBuffer;
+    uint8_t * currentBufferP = & currentBuffer;
     
-    Channel( uint8_t pin , commonn_type commonType , uint8_t _bwidth );
+    Channel( uint8_t pin , common_type commonType , uint8_t _bwidth );
     
-    //void copyBuffers();
+    void copyBuffers();
     
     //Drawing primitives
     
@@ -88,12 +92,17 @@ public:
         }
     }
     
+    inline uint8_t * get() { 
+        return buffer[ currentBuffer ]; 
+    }
+    
     inline bool get( uint16_t _pos ) {
         return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
     }
     
     
-		
 private:
     
 };
+
+#endif
