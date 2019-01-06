@@ -26,26 +26,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "Channel.h"
 #include "Screen.h"
 
-#define BWIDTH 32 //number of bytes
-#define WIDTH ( BWIDTH * 8 ) //number of lines (bits)
-
-
-#define F_CAM 30 //Assumes that the frequency of the camera is 30 hz
-#define TICK F_CPU / ( F_CAM * WIDTH ) //initial frequency
-
 #define MAX_CHANNELS 12 //Maybe more, depends on a freq cam, resolution and f_cpu
 
-//Signalig variable
-		/* 0: Busy, not copy, from scketch to library, processing over dataBuffers
-		   1: Ready for copy, from scketch to library, end of processing
-		   2: Beging of frame, from library to scketch, ready for process, quick go! */
-extern volatile uint8_t frameStatus;
 extern volatile uint32_t frameCount;
 extern volatile uint32_t frameLost; 
-
-
-static Channel *channels[MAX_CHANNELS];
-static uint8_t channelsCount = 0;
 
 //Callback function types
 extern "C" {
@@ -55,7 +39,7 @@ extern "C" {
 class RSD {
 	
 	public:
-		
+        
         // Begin function. Needs to be called in the setup()
         
         static void begin( uint8_t f_cam , uint8_t _bwidth );
