@@ -31,7 +31,7 @@ class Screen {
 
 public:
     
-    Screen( Channel * red , Channel * green , Channel * blue );
+    Screen( Channel *red , Channel *green , Channel *blue );
     
     void line( uint16_t _pos , colour c );
     
@@ -41,13 +41,14 @@ public:
     
     void clear( );
     
+    
     colour get( uint16_t _pos );
     
 private:
     
-    Channel * Red;
-    Channel * Green;
-    Channel * Blue;
+    Channel *Red;
+    Channel *Green;
+    Channel *Blue;
     
 };
 

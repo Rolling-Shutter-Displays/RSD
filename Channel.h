@@ -29,20 +29,35 @@ class Channel {
 
 public:
     
-    uint8_t * pinPort;
+    //Make up variables
+    uint8_t *pinPort;
     uint8_t pinMask;
     common_type ledType;
     uint8_t bwidth;
     
-    //double buffer video memory
-    uint8_t * buffer[ 2 ];
+    //Double buffer video memory
+    uint8_t *buffer[ 2 ];
     
+    //Swap variables
     uint8_t currentBuffer;
     uint8_t * currentBufferP = & currentBuffer;
     
-    Channel( uint8_t pin , common_type commonType , uint8_t _bwidth );
+    //Constructor
+    Channel( uint8_t pin , common_type commonType , uint8_t _bwidth ) {
     
-    void copyBuffers();
+        ledType = commonType;
+    
+        pinPort = portOutputRegister( digitalPinToPort( pin ) );
+        pinMask = digitalPinToBitMask( pin );
+        pinMode( pin , OUTPUT );
+    
+        bwidth = _bwidth;
+    
+        // Allocate and clean memory for buffers
+        buffer[0] = calloc( _bwidth , 1 );
+        buffer[1] = calloc( _bwidth , 1 ); 
+    
+    }
     
     //Drawing primitives
     
@@ -116,6 +131,17 @@ public:
         return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
     }
     
+    inline void copy( Channel *ch ) {
+        if( ch == this ) {
+            for( uint8_t i = 0 ; i < bwidth ; i++ ) {
+                *( buffer[ currentBuffer ] + i ) = *( buffer[ 1 - currentBuffer ] + i );
+            }
+        } else {
+            for( uint8_t i = 0 ; i < bwidth ; i++ ) {
+                *( buffer[ currentBuffer ] + i ) = *( ch->get() + i );
+            }
+        }
+    }
     
 private:
     

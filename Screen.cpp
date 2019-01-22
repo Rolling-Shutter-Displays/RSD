@@ -16,7 +16,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "Screen.h"
 
-Screen::Screen( Channel * red , Channel * green , Channel * blue ) {
+Screen::Screen( Channel *red , Channel *green , Channel *blue ) {
     Red = red;
     Green = green;
     Blue = blue;
@@ -72,7 +72,7 @@ void Screen::line( uint16_t _pos , colour c ) {
     
 }
 
-void Screen::fill( uint16_t x0 , uint16_t x1,  colour c ) {
+void Screen::fill( uint16_t x0 , uint16_t x1 ,  colour c ) {
     if ( x1 >= x0 ) {
             
             do {
