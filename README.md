@@ -15,10 +15,10 @@ Esta librería nos permite crear un RSD, con tan solo un Arduino y un LED!. Así
 ### Hardware: Circuitos básicos
 Por lo general, Arduino ya trae incorporado un LED en la placa (LED_BUILTIN). Sin embargo para poder apreciar el fénomeno de una manera mas efectiva, a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
 
-####Circuito mínimo
+#### Circuito mínimo
+![minimal setup](/media/Circuito_minimo_conjunto.png) 
 
-
-####Circuito recomendado
+#### Circuito recomendado
 
 
 ![Fritzing schematic]()
