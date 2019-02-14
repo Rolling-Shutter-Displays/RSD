@@ -27,7 +27,7 @@ La sintonía del RSD en este esquema la haremos a través del puerto serie.
 ![recommended setup](/media/Circuito_recomendado_conjunto.png) 
 
 El circuito recomendado, consiste en un LED RGB y un potenciómetro de 5 kΩ ~ 10 kΩ. Un LED RGB nos permitirá obtener además de los 3 colores del mismo (rojo, verde y azul), sus combinaciones; es decir, amarillo (rojo + verde), cian (verde + azul), magenta (azul + rojo) y blanco (rojo + verde + azul). Contando el negro como un color, este modo nos permite representar 8 colores. Las mismas consideraciones respecto al LED tenidas en cuenta para el caso del circuito mínimo valen para este caso: un LED RGB no deja de ser un conjunto de 3 LEDs.   
-El potenciómetro, por otro lado, proporciona un control más dinámico de la sintonía del RSD. La diferencia mas importante con el circuito mínimo, es que en este caso, no necesitaremos tener conectado el Arduino a la PC para sintonizar el RSD.
+El potenciómetro, por otro lado, proporciona un control más dinámico de la sintonía del RSD. La diferencia más importante con el circuito mínimo es que, en este caso, no necesitaremos tener conectado el Arduino a la PC para sintonizar el RSD.
 
 ### Instalación de la librería
 
