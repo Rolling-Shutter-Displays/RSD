@@ -13,7 +13,8 @@ Rolling Shutter Display Library, es una librería para Arduino UNO y semejantes,
 Esta librería nos permite crear un RSD, con tan solo un Arduino y un LED!. Así que, antes de entrar en detalles, no hay excusas para que no la pruebes por vos mismo.
 
 ### Hardware: Circuitos básicos
-Por lo general, Arduino ya trae incorporado un LED en la placa (LED_BUILTIN). Sin embargo para poder apreciar el fenómeno de una manera mas efectiva, a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
+Arduino ya trae incorporado un LED y de hecho es posible construir un RSD con el mismo: [RSD LED_BUILTIN](youtube), por lo que en principio un Arduino es todo lo que se necesita!.  
+Sin embargo para poder apreciar el fenómeno de una manera mas efectiva, a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
 
 #### Circuito mínimo
 ![minimal setup](/media/Circuito_minimo_conjunto.png) 
@@ -29,7 +30,13 @@ La sintonía del RSD en este esquema la haremos a través del puerto serie.
 El circuito recomendado, consiste en un LED RGB y un potenciómetro de 5 kΩ ~ 10 kΩ. Un LED RGB nos permitirá obtener además de los 3 colores del mismo (rojo, verde y azul), sus combinaciones; es decir, amarillo (rojo + verde), cian (verde + azul), magenta (azul + rojo) y blanco (rojo + verde + azul). Contando el negro como un color, este modo nos permite representar 8 colores. Las mismas consideraciones respecto al LED tenidas en cuenta en el circuito mínimo valen para este caso: un LED RGB no deja de ser un conjunto de 3 LEDs.   
 El potenciómetro, por otro lado, proporciona un control más dinámico de la sintonía del RSD. La diferencia más importante con el circuito mínimo es que no necesitamos tener conectado el Arduino a la PC para sintonizar el RSD.
 
-### Instalación de la librería
+### Software: Instalación de la librería
+
+- Descargar este repositorio
+- En el entorno de desarrollo de Arduino (IDE), vamos a Programa > Incluir Librería > Añadir librería .ZIP
+- Buscamos el fichero Zip del repositorio que acabamos de descargar y hacemos click en abrir
+
+![library installation](/media/Instalar_libreria.png) 
 
 ### Cámara
 
