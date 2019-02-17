@@ -13,8 +13,7 @@ Rolling Shutter Display Library, es una librería para Arduino UNO y semejantes,
 Esta librería nos permite crear un RSD, con tan solo un Arduino y un LED!. Así que, antes de entrar en detalles, no hay excusas para que no la pruebes por vos mismo.
 
 ### Hardware: Circuitos básicos
-Arduino ya trae incorporado un LED y de hecho es posible construir un RSD con el mismo: [RSD LED_BUILTIN](youtube), por lo que en principio un Arduino es todo lo que se necesita!.  
-Sin embargo para poder apreciar el fenómeno de una manera mas efectiva, a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
+Arduino ya trae incorporado un LED y de hecho es posible [construir un RSD con el mismo](youtube), por lo que, en principio, un Arduino es todo lo que se necesita. Sin embargo para poder apreciar el fenómeno de una manera mas efectiva, a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
 
 #### Circuito mínimo
 ![minimal setup](/media/Circuito_minimo_conjunto.png) 
