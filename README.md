@@ -37,7 +37,16 @@ El potenciómetro, por otro lado, proporciona un control más dinámico de la si
 
 ![library installation](/media/Instalar_libreria.png) 
 
-### Cámara
+Una vez instalada la librería, vamos a cargar el primer Sketch para comprobar que todo esté en funcionamiento. Para ello vamos a Archivo > Ejemplos > RSD-master > TestScreen_mono (en el caso del circuito mínimo) o TestScreen_RGB (en el caso del circuito recomendado).  
+Una vez que cargamos el Sketch al Arduino, el LED a simple vista debería parpadear. A medida que acercamos más y más la cámara de un celular al LED, deberíamos ser capaces de ver algo similar a los siguientes patrones:
+
+![Test Screens](/media/) 
+
+### Ajustes
+
+#### Sintonía
+
+#### Cámara
 
 ### Uso de la librería
 
