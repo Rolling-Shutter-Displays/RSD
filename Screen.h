@@ -25,8 +25,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "Channel.h" 
 
-typedef enum { BLACK , RED , GREEN , BLUE , YELLOW , CYAN , MAGENTA , WHITE } colour;
-
 class Screen {
 
 public:

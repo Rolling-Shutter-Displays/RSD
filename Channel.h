@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 
 typedef enum { COMMON_CATHODE = 0, COMMON_ANODE = 1 } common_type;
+typedef enum { BLACK , RED , GREEN , BLUE , YELLOW , CYAN , MAGENTA , WHITE } colour;
 
 class Channel {
 
@@ -104,9 +105,9 @@ public:
     }
     
     inline void clear( uint16_t x0 , uint16_t x1 ) {
-        //Whattt???
         
-        if ( x1 >= x0 ) {
+        //Check
+        if ( x1 > x0 ) {
             
             do {
                 clear( x1 );
@@ -114,6 +115,10 @@ public:
             } while( x1 > x0 );
             
             clear( x0 );
+            
+        } else if( x1 == x0 ) {
+            
+            clear( x1 );
             
         } else {
             
@@ -138,6 +143,22 @@ public:
     
     inline bool get( uint16_t _pos ) {
         return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
+    }
+    
+    inline void line( uint16_t _pos , colour c) {
+        if( c ) {
+            line( _pos );
+        } else {
+            clear( _pos );
+        }
+    }
+    
+    inline void fill( uint16_t x0 , uint16_t x1 , colour c ) {
+        if( c ) {
+            fill( x0 , x1 );
+        } else {
+            clear( x0 , x1 );
+        }
     }
     
     inline void copy( Channel *ch ) {
