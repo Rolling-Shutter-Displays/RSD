@@ -110,6 +110,16 @@ ISR( TIMER1_COMPA_vect ) {
 
 }
 
+void RSD::initTimer1(){
+	TCCR1A = 0; // Timer/Counter1 Control Register A, reset
+	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
+	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
+	TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
+	OCR1A = tick;
+	TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
+}
+
+//Begin
 void RSD::begin( uint8_t _fcam , uint8_t _bwidth ) {
     fcam = _fcam;
     bwidth = _bwidth;
@@ -121,21 +131,37 @@ void RSD::begin( uint8_t _fcam , uint8_t _bwidth ) {
 	RSD:initTimer1();
 }
 
+//Attach channel objet
 void RSD::attachChannel ( Channel ch ) {
     channels[ channelsCount ] = &ch;
     channelsCount++;
 }
 
-void RSD::initTimer1(){
-	TCCR1A = 0; // Timer/Counter1 Control Register A, reset
-	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
-	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
-	TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
-	OCR1A = tick;
-	TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
+//Attach callback function
+void RSD::attachDraw( callbackFunction newFunction ) {
+	_draw = newFunction;
+} 
+
+//Update
+void RSD::update() {
+	if ( frameStatus == 2 ) {
+        frameStatus = 0;
+        
+         //Clear buffers don't work, why?
+        /*
+        for( uint8_t i = 0 ; i < channelsCount ; i++ ) {
+            channels[i]->clear();
+        }
+        */
+		
+        //Callback Function, let's draw!
+        _draw();
+        
+        frameStatus = 1;
+	}
 }
 
-//Tunnig functions
+//Tuning functions
 
 uint16_t RSD::getTick() {
 	return	tick;
@@ -154,11 +180,11 @@ uint16_t RSD::getLastTick() {
 }
 
 uint16_t RSD::getLowerLastTick() {
-	return	tick - ( width - 1 ); //It's right?
+	return	tick - ( width - 1 ); //It this right? I doubt it
 }
 
 uint16_t RSD::getHigherLastTick() {
-	return	tick + ( width - 1 );
+	return	tick + ( width - 1 );  //It this right? I doubt it
 }
 
 bool RSD::setTick( int _tick ) {
@@ -189,6 +215,7 @@ float RSD::getFrequency() {
 	return (float) F_CPU / getPeriod();
 }
 
+//Uhhm, just work, queque in ISR is better
 void RSD::changePos(bool direction) {
 	if ( direction ) { //If direction is forward
 		if ( pos < width ) {
@@ -201,20 +228,4 @@ void RSD::changePos(bool direction) {
 	}
 	
 }
-
-void RSD::update() {
-	if ( frameStatus == 2 ) {
-        
-        frameStatus = 0;
-		
-        _draw();
-		
-        frameStatus = 1;
-	}
-}
-
-//Callback function, let's draw!
-void RSD::attachDraw( callbackFunction newFunction ) {
-	_draw = newFunction;
-} // attachDraw
 

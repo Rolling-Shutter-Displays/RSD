@@ -66,7 +66,10 @@ public:
     }
     
     inline void fill( uint16_t x0 , uint16_t x1 ) {
-        if ( x1 >= x0 ) {
+        
+        //Check
+        
+        if ( x1 > x0 ) {
             
             do {
                 line( x1 );
@@ -74,6 +77,10 @@ public:
             } while( x1 > x0 );
             
             line( x0 );
+            
+        } else if( x1 == x0 ) {
+            
+            line( x1 );
             
         } else {
             
@@ -97,6 +104,8 @@ public:
     }
     
     inline void clear( uint16_t x0 , uint16_t x1 ) {
+        //Whattt???
+        
         if ( x1 >= x0 ) {
             
             do {

@@ -4,18 +4,16 @@
 
 # Datatypes (such as objects)
 RSD	KEYWORD1
+Channel	KEYWORD1
 draw	KEYWORD1
 
 #Methods / functions
 begin	KEYWORD2
-beginDraw	KEYWORD2
-endDraw	KEYWORD2
-putLine	KEYWORD2
-clearLine	KEYWORD2
-clearChannel	KEYWORD2
-fillChannel	KEYWORD2
-clearScreen	KEYWORD2
-fillScreen	KEYWORD2
+update	KEYWORD2
+line	KEYWORD2
+fill	KEYWORD2
+clear	KEYWORD2
+attachChannel	KEYWORD2
 attachDraw	KEYWORD2
 getTick	KEYWORD2
 getLastTick	KEYWORD2
