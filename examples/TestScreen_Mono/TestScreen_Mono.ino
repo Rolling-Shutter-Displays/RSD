@@ -4,7 +4,11 @@
   This is a example sketch to show how to use the RSD library, to make a Rolling Shutter Display
   using just one led.
 
-  For full explanation see: https://github.com/Rolling-Shutter-Displays/RSD
+  Open the serial monitor, to tuning the RSD. The data shows the
+  frequency of the RSD and the Tick*. Send a number between 1 and 255, and
+  you can tuning the RSD in the range of +-1hz.
+
+  *For full explanation see: https://github.com/Rolling-Shutter-Displays/RSD
   
   created 24 Feb 2019
   by derfaq
@@ -33,13 +37,6 @@ void setup() {
 void loop() {
   //Update the RSD
   rsd.update();
-
-  /*
-  //Tuning the RSD: Potentiometer way
-  int tick = map( analogRead(A0) , 0 , 1023 , rsd.getLowerTick() , rsd.getHigherTick() );
-  rsd.setTick( tick );
-  rsd.setLastTick( tick );
-  */ 
 }
 
 //Tuning the RSD: Serial way
@@ -73,9 +70,8 @@ void draw() {
   }
 
   //Serial diagnosis
-  Serial.print("@fcam: ");
+  Serial.print("@frsd: ");
   Serial.print( rsd.getFrequency() , 10 );
   Serial.print(" , tick: ");
   Serial.println( rsd.getTick() );
-  
 }
