@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 
 typedef enum { COMMON_CATHODE = 0, COMMON_ANODE = 1 } common_type;
-typedef enum { BLACK , RED , GREEN , BLUE , YELLOW , CYAN , MAGENTA , WHITE } colour;
+typedef enum { BLACK , BLUE , RED , MAGENTA , GREEN , CYAN , YELLOW , WHITE } colour; //mira rainbow
 
 class Channel {
 
@@ -158,6 +158,12 @@ public:
             fill( x0 , x1 );
         } else {
             clear( x0 , x1 );
+        }
+    }
+    
+    inline void invert() {
+        for( uint8_t i = 0 ; i < bwidth ; i++ ) {
+            *( buffer[currentBuffer] + i ) = ~(*( buffer[currentBuffer] + i ));
         }
     }
     

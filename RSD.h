@@ -48,6 +48,7 @@ class RSD {
         
         static void attachChannel( Channel ch );
         
+        
 		// Update function. Needs to be called in the loop() 
         
 		static void update();
@@ -70,15 +71,16 @@ class RSD {
 
 		static uint16_t getHigherLastTick();
 
-		static bool setTick(int _tick);
+		static bool setTick( int _tick) ;
 
-		static bool setLastTick(int _last);
+		static bool setLastTick( int _last );
 
 		static uint32_t getPeriod();
 
 		static float getFrequency();
-
-		static void changePos(bool direction);
+        
+        static void phaseShift( int _phase );
+        
         
 	private:
         

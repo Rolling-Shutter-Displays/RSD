@@ -25,6 +25,8 @@ static volatile uint16_t width;
 static volatile uint16_t tick;
 static volatile uint16_t last;
 
+static volatile int16_t phase = 0;
+
 static Channel *channels[MAX_CHANNELS];
 static uint8_t channelsCount = 0;
 
@@ -72,9 +74,29 @@ ISR( TIMER1_COMPA_vect ) {
         }
     }
     
-  	//Increment the position
-  	pos++;
-
+  	//Phase shifter
+    
+    if (phase == 0) {
+        
+        pos++;
+        
+    } else if( phase > 0 ) {
+        
+        if ( pos + phase%width < width ) {
+            pos = pos + phase%width;
+        } else {
+            pos = phase%width - ( width - pos );
+        }
+        
+        phase = 0;
+    
+        
+    } else {
+        
+        phase++;
+        
+    }
+    
   	//Special moments
   	if ( pos == width - 1 ) { 
     	OCR1A = last; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
@@ -215,17 +237,7 @@ float RSD::getFrequency() {
 	return (float) F_CPU / getPeriod();
 }
 
-//Uhhm, just work, queque in ISR is better
-void RSD::changePos(bool direction) {
-	if ( direction ) { //If direction is forward
-		if ( pos < width ) {
-			pos++;
-		} 
-	} else { //If direction is backwards
-		if ( pos > 0 ) {
-			pos--;
-		}
-	}
-	
+static void RSD::phaseShift( int _phase ) {
+    phase += _phase;
+    
 }
-

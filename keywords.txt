@@ -5,6 +5,7 @@
 # Datatypes (such as objects)
 RSD	KEYWORD1
 Channel	KEYWORD1
+Screen	KEYWORD1
 draw	KEYWORD1
 
 #Methods / functions

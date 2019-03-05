@@ -29,18 +29,57 @@ class Screen {
 
 public:
     
-    Screen( Channel *red , Channel *green , Channel *blue );
+    Screen( Channel *red , Channel *green , Channel *blue ) {
+        Red = red;
+        Green = green;
+        Blue = blue;
+    }
     
-    void line( uint16_t _pos , colour c );
+    void line( uint16_t _pos , colour c ) { 
+        ( 0xCC & (1 << c) ) ? Red->line( _pos ) : Red->clear( _pos ) ;
+        ( 0xF0 & (1 << c) ) ? Green->line( _pos ) : Green->clear( _pos ) ;
+        ( 0xAA & (1 << c) ) ? Blue->line( _pos ) : Blue->clear( _pos ) ;
+    }
     
-    void fill( uint16_t x0 , uint16_t x1,  colour c );
+    void fill( uint16_t x0 , uint16_t x1,  colour c ) {
+        if ( x1 >= x0 ) {
+            do {
+                line( x1 , c );
+                x1--;
+            } while( x1 > x0 );
+            
+            line( x0 , c );
+        } else {
+            do {
+                line( x0 , c );
+                x0--;
+            } while( x0 > x1 );
+            
+            line( x1 , c );
+        }
+    }
     
-    void fill( colour c = WHITE );
+    void fill( colour c = WHITE ) {
+        ( 0xCC & (1 << c) ) ? Red->fill() : Red->clear() ;
+        ( 0xF0 & (1 << c) ) ? Green->fill() : Green->clear() ;
+        ( 0xAA & (1 << c) ) ? Blue->fill() : Blue->clear() ;
+    }
     
-    void clear( );
+    void clear( uint16_t x0 ) {
+        line( x0 , BLACK );
+    }
     
+    void clear( ) {
+        fill( BLACK );
+    }
     
-    colour get( uint16_t _pos );
+    colour get( uint16_t _pos ) { 
+        uint8_t c = 0x00;
+        if ( Red->get( _pos ) ) c += 2;
+        if ( Green->get( _pos ) ) c += 4;
+        if ( Blue->get( _pos ) ) c += 1;
+        return c;
+    }
     
 private:
     
