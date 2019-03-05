@@ -1,10 +1,10 @@
 /*
   TestScreen_Mono.ino
 
-  This is a example sketch to show how to use the RSD library, to make a Rolling Shutter Display
+  This is a example sketch to show how to use the RSD library to make a Rolling Shutter Display
   using just one led.
 
-  Open the serial monitor, to tuning the RSD. The data shows the
+  Open the serial monitor to tuning the RSD. The data shows the
   frequency of the RSD and the Tick*. Send a number between 1 and 255, and
   you can tuning the RSD in the range of +-1hz.
 
