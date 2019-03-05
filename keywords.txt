@@ -22,11 +22,11 @@ getPeriod	KEYWORD2
 getFrequency	KEYWORD2
 getLowerTick	KEYWORD2
 getHigherTick	KEYWORD2
-getLowerLastTick	KEYWORD2
-getHigherLastTick	KEYWORD2
+getLowerFine	KEYWORD2
+getHigherFine	KEYWORD2
 setTick	KEYWORD2
-setLastTick	KEYWORD2
-changePos	KEYWORD2
+setFine	KEYWORD2
+shiftPhase	KEYWORD2
 
 # Constants
 BWIDTH	LITERAL1

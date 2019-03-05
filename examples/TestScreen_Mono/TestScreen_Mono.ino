@@ -20,26 +20,42 @@
 RSD rsd;
 
 #define BWIDTH 32         //Byte resolution
-#define WIDTH (BWIDTH*8)  //Line resolution
+#define WIDTH (BWIDTH*8 - 1)  //Line resolution
 
 //Channel( pin , led mode , byte resolution )
-Channel White( 8 , COMMON_CATHODE , BWIDTH );
+Channel white( 8 , COMMON_CATHODE , BWIDTH );
 
 void setup() {
   //Setup of the RSD 
   rsd.begin( 30 , BWIDTH );   //begin( frequency , byte resolution )
-  rsd.attachChannel( White ); //attachChannel( channel )
+  
+  rsd.attachChannel( white ); //attachChannel( channel )
+  
   rsd.attachDraw( draw );     //attachDraw( callback function )
 
   Serial.begin( 9600 );
 }
 
 void loop() {
-  //Update the RSD
+  //Run the engine
   rsd.update();
+
+  /*
+  // Tuning: Analog way
+  int tick = map( analogRead( A0 ), 0 , 1023 , rsd.getLowerTick() , rsd.getHigherTick() );
+  rsd.setTick( tick );
+  rsd.setFine( tick ); 
+  */
+
+  /*
+  //Tuning: Fixed way
+  //@frsd: 29.9819164276 , BWIDTH: 32 , tick: 2084 , fine: 2235 // Samsung S6 Edge 
+  rsd.setTick( 2084 );
+  rsd.setFine( 2235 );
+  */
 }
 
-//Tuning the RSD: Serial way
+//Tuning: Serial way
 void serialEvent() {
    int tick = Serial.parseInt();
    if ( tick ) { 
@@ -47,31 +63,35 @@ void serialEvent() {
     tick = map( tick , 1 , 255 , rsd.getLowerTick() , rsd.getHigherTick() );
     
     rsd.setTick( tick );
-    rsd.setLastTick( tick );
+    rsd.setFine( tick );
    }
 }
 
 //Let's draw!
 void draw() {
   
-  White.fill( 0 , WIDTH/4 );
+  white.fill( 0 , WIDTH/4 );
 
   for( int i = 1 ; i < (WIDTH/4) ; i++ ) {
     int val = (WIDTH/4)/i;
     if ( i%2 ) {
-      White.clear( WIDTH/2 -val, WIDTH/2 + val);
+      white.clear( WIDTH/2 -val, WIDTH/2 + val);
     } else {
-      White.fill( WIDTH/2 - val, WIDTH/2 + val);
+      white.fill( WIDTH/2 - val, WIDTH/2 + val);
     }
   }
 
   for( int i = 0 ; i < WIDTH/4 ; i++ ) {
-    if( i%2 ) White.line( WIDTH - 1 - i );
+    if( i%2 ) white.line( WIDTH - i );
   }
 
   //Serial diagnosis
   Serial.print("@frsd: ");
   Serial.print( rsd.getFrequency() , 10 );
+  Serial.print(" , BWIDHT: ");
+  Serial.print(BWIDTH);
   Serial.print(" , tick: ");
-  Serial.println( rsd.getTick() );
+  Serial.print( rsd.getTick() );
+  Serial.print(" , fine: ");
+  Serial.println( rsd.getFine() );
 }

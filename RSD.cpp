@@ -23,7 +23,7 @@ static uint8_t bwidth;
 static volatile uint16_t width;
 
 static volatile uint16_t tick;
-static volatile uint16_t last;
+static volatile uint16_t fine;
 
 static volatile int16_t phase = 0;
 
@@ -99,7 +99,7 @@ ISR( TIMER1_COMPA_vect ) {
     
   	//Special moments
   	if ( pos == width - 1 ) { 
-    	OCR1A = last; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
+    	OCR1A = fine; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
   	}
 
   	//If the position is the first
@@ -148,7 +148,7 @@ void RSD::begin( uint8_t _fcam , uint8_t _bwidth ) {
     width = _bwidth*8;
     
     tick = F_CPU / ( fcam * width );
-    last = tick;
+    fine = tick;
     //Initialize the timer
 	RSD:initTimer1();
 }
@@ -168,13 +168,6 @@ void RSD::attachDraw( callbackFunction newFunction ) {
 void RSD::update() {
 	if ( frameStatus == 2 ) {
         frameStatus = 0;
-        
-         //Clear buffers don't work, why?
-        /*
-        for( uint8_t i = 0 ; i < channelsCount ; i++ ) {
-            channels[i]->clear();
-        }
-        */
 		
         //Callback Function, let's draw!
         _draw();
@@ -197,15 +190,15 @@ uint16_t RSD::getHigherTick() {
 	return	F_CPU / ( ( fcam - 1 ) * width );
 }
 
-uint16_t RSD::getLastTick() {
-	return	last;
+uint16_t RSD::getFine() {
+	return fine;
 }
 
-uint16_t RSD::getLowerLastTick() {
+uint16_t RSD::getLowerFine() {
 	return	tick - ( width - 1 ); //It this right? I doubt it
 }
 
-uint16_t RSD::getHigherLastTick() {
+uint16_t RSD::getHigherFine() {
 	return	tick + ( width - 1 );  //It this right? I doubt it
 }
 
@@ -219,10 +212,10 @@ bool RSD::setTick( int _tick ) {
 	}
 }
 
-bool RSD::setLastTick( int _tick ) {
+bool RSD::setFine( int _tick ) {
 	
-	if( ( _tick  > getLowerLastTick() ) && ( _tick  < getHigherLastTick() ) ) {
-			last = _tick;
+	if( ( _tick  > getLowerFine() ) && ( _tick  < getHigherFine() ) ) {
+			fine = _tick;
 			return true;
 		} else {
 			return false; //Maybe we want to change the tick?
@@ -230,14 +223,13 @@ bool RSD::setLastTick( int _tick ) {
 }
 
 uint32_t RSD::getPeriod() {
-	return (uint32_t) tick * (width - 1) + last;
+	return (uint32_t) tick * (width - 1) + fine;
 }
 
 float RSD::getFrequency() {
 	return (float) F_CPU / getPeriod();
 }
 
-static void RSD::phaseShift( int _phase ) {
+static void RSD::shiftPhase( int _phase ) {
     phase += _phase;
-    
 }
