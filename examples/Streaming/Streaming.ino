@@ -77,6 +77,7 @@ byte[] dbB = new byte[BWIDTH];
 
 void setup() {
   size( 640 , 360 ); 
+  background(0);
 
   println(Serial.list());
   String portName = Serial.list()[1];
@@ -84,13 +85,25 @@ void setup() {
 
 }
 
+int barWidth = 20;
+int lastBar = -1;
+
 void draw() {
-  background(0);
   //Draw something here
   
+  //Hue Processing example
+  noStroke();
+  colorMode(HSB, height, height, height);
+  int whichBar = mouseX / barWidth;
+  if (whichBar != lastBar) {
+    int barX = whichBar * barWidth;
+    fill(mouseY, height, height);
+    rect(barX, 0, barWidth, height);
+    lastBar = whichBar;
+  }
+  
+  //saveFrame line to transmit to RSD
   saveFrame(mouseY);
-  stroke(255,127);
-  line(0 , mouseY, width, mouseY);
 }
 
 void saveFrame(int y) {
@@ -100,7 +113,7 @@ void saveFrame(int y) {
     byteR = byteG = byteB = 0;
     color c;
     for(int j = 0; j < 8; j++){
-      c = get(i*8 - j, y);
+      c = get( i*8 + j , y );
       if (( c >> 16 & 0xFF ) > 127) {
         byteR |= (1 << j);
       }
