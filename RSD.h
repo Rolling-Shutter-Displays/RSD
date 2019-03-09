@@ -37,8 +37,8 @@ extern "C" {
 }
 
 class RSD {
-	
-	public:
+
+public:
         
     // Begin function. Needs to be called in the setup()
         
