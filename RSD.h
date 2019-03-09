@@ -1,6 +1,6 @@
 /*
 RSD.h - A library to make rolling shutter displays
-Copyright (c) 2018 Facundo Daguerre (a.k.a derfaq).  All right reserved.
+Copyright (c) 2018-2019 Facundo Daguerre (a.k.a derfaq).  All right reserved.
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
@@ -40,51 +40,51 @@ class RSD {
 	
 	public:
         
-        // Begin function. Needs to be called in the setup()
+    // Begin function. Needs to be called in the setup()
         
-        static void begin( uint8_t f_cam , uint8_t _bwidth );
+    static void begin( uint8_t f_cam , uint8_t _bwidth );
         
-        // Attach function.
+    // Attach function.
         
-        static void attachChannel( Channel ch );
+    static void attachChannel( Channel ch );
         
-		// Update function. Needs to be called in the loop() 
+    // Update function. Needs to be called in the loop() 
         
-		static void update();
-		
-		// Callback function attachment. Needs to be called in the setup(), and update() running in the loop()
-		
-		static void attachDraw( callbackFunction newFunction );
+    static void update();
+    
+    // Callback function attachment. Needs to be called in the setup(), and update() running in the loop()
+    
+    static void attachDraw( callbackFunction newFunction );
 
-		// Tunning functions
-		
-        static uint16_t getTick();
-		
-		static uint16_t getLowerTick();
+    // Tunning functions
+    
+    static uint16_t getTick();
+    
+    static uint16_t getLowerTick();
 
-		static uint16_t getHigherTick();
+    static uint16_t getHigherTick();
 
-		static uint16_t getFine();
+    static uint16_t getFine();
 
-		static uint16_t getLowerFine();
+    static uint16_t getLowerFine();
 
-		static uint16_t getHigherFine();
+    static uint16_t getHigherFine();
 
-		static bool setTick( int _tick ) ;
+    static bool setTick( int _tick ) ;
 
-		static bool setFine( int _last );
+    static bool setFine( int _last );
 
-		static uint32_t getPeriod();
+    static uint32_t getPeriod();
 
-		static float getFrequency();
+    static float getFrequency();
         
-        static void shiftPhase( int _phase );
+    static void shiftPhase( int _phase );
         
         
-	private:
+private:
         
-		//Timer one initialization method
-		static void initTimer1();
+    //Timer one initialization method
+    static void initTimer1();
         
 };
 

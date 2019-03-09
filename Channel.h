@@ -1,6 +1,6 @@
 /*
 Channel.h - Part of RSD library.
-Copyright (c) 2018 Facundo Daguerre (a.k.a der faq).  All right reserved.
+Copyright (c) 2018-2019 Facundo Daguerre (a.k.a der faq).  All right reserved.
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
