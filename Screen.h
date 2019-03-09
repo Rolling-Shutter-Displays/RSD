@@ -41,6 +41,12 @@ public:
         ( 0xAA & (1 << c) ) ? Blue->line( _pos ) : Blue->clear( _pos ) ;
     }
     
+    void lineSafe( int16_t _pos , colour c ) { 
+        ( 0xCC & (1 << c) ) ? Red->lineSafe( _pos ) : Red->clearSafe( _pos ) ;
+        ( 0xF0 & (1 << c) ) ? Green->lineSafe( _pos ) : Green->clearSafe( _pos ) ;
+        ( 0xAA & (1 << c) ) ? Blue->lineSafe( _pos ) : Blue->clearSafe( _pos ) ;
+    }
+    
     void fill( uint16_t x0 , uint16_t x1,  colour c ) {
         if ( x1 >= x0 ) {
             do {
@@ -59,6 +65,24 @@ public:
         }
     }
     
+    void fillSafe( int16_t x0 , int16_t x1,  colour c ) {
+        if ( x1 >= x0 ) {
+            do {
+                lineSafe( x1 , c );
+                x1--;
+            } while( x1 > x0 );
+            
+            lineSafe( x0 , c );
+        } else {
+            do {
+                lineSafe( x0 , c );
+                x0--;
+            } while( x0 > x1 );
+            
+            lineSafe( x1 , c );
+        }
+    }
+    
     void fill( colour c = WHITE ) {
         ( 0xCC & (1 << c) ) ? Red->fill() : Red->clear() ;
         ( 0xF0 & (1 << c) ) ? Green->fill() : Green->clear() ;
@@ -67,6 +91,10 @@ public:
     
     void clear( uint16_t x0 ) {
         line( x0 , BLACK );
+    }
+    
+    void clearSafe( int16_t x0 ) {
+        lineSafe( x0 , BLACK );
     }
     
     void clear( ) {
@@ -78,6 +106,14 @@ public:
         if ( Red->get( _pos ) ) c += 2;
         if ( Green->get( _pos ) ) c += 4;
         if ( Blue->get( _pos ) ) c += 1;
+        return c;
+    }
+    
+    colour getSafe( int16_t _pos ) { 
+        uint8_t c = 0x00;
+        if ( Red->getSafe( _pos ) ) c += 2;
+        if ( Green->getSafe( _pos ) ) c += 4;
+        if ( Blue->getSafe( _pos ) ) c += 1;
         return c;
     }
     

@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 
 typedef enum { COMMON_CATHODE = 0, COMMON_ANODE = 1 } common_type;
-typedef enum { BLACK , BLUE , RED , MAGENTA , GREEN , CYAN , YELLOW , WHITE } colour; //mira rainbow
+typedef enum { BLACK , BLUE , RED , MAGENTA , GREEN , CYAN , YELLOW , WHITE } colour;
 
 class Channel {
 
@@ -35,6 +35,7 @@ public:
     uint8_t pinMask;
     common_type ledType;
     uint8_t bwidth;
+    uint16_t width;
     
     //Double buffer video memory
     uint8_t *buffer[ 2 ];
@@ -53,6 +54,7 @@ public:
         pinMode( pin , OUTPUT );
     
         bwidth = _bwidth;
+        width = (_bwidth*8) - 1;
     
         // Allocate and clean memory for buffers
         buffer[0] = calloc( _bwidth , 1 );
@@ -66,9 +68,29 @@ public:
         *( buffer[currentBuffer] + _pos / 8 ) |= ( 1 << _pos % 8 );
     }
     
+    inline void line( uint16_t _pos , colour c) {
+        if( c ) {
+            line( _pos );
+        } else {
+            clear( _pos );
+        }
+    }
+    
+    inline void lineSafe( int16_t _pos ) {
+        if (_pos > width ) _pos = width;
+        if (_pos < 0 ) _pos = 0;
+        *( buffer[currentBuffer] + _pos / 8 ) |= ( 1 << _pos % 8 );
+    }
+    
+    inline void lineSafe( uint16_t _pos , colour c) {
+        if( c ) {
+            lineSafe( _pos );
+        } else {
+            clearSafe( _pos );
+        }
+    }
+    
     inline void fill( uint16_t x0 , uint16_t x1 ) {
-        
-        //Check
         
         if ( x1 > x0 ) {
             
@@ -94,6 +116,48 @@ public:
         }
     }
     
+    inline void fill( uint16_t x0 , uint16_t x1 , colour c ) {
+        if( c ) {
+            fill( x0 , x1 );
+        } else {
+            clear( x0 , x1 );
+        }
+    }
+    
+    inline void fillSafe( int16_t x0 , int16_t x1 ) { //Check
+        
+        if ( x1 > x0 ) {
+            
+            do {
+                lineSafe( x1 );
+                x1--;
+            } while( x1 > x0 );
+            
+            lineSafe( x0 );
+            
+        } else if( x1 == x0 ) {
+            
+            lineSafe( x1 );
+            
+        } else {
+            
+            do {
+                lineSafe( x0 );
+                x0--;
+            } while( x0 > x1 );
+            
+            lineSafe( x1 );
+        }
+    }
+    
+    inline void fillSafe( uint16_t x0 , uint16_t x1 , colour c ) {
+        if( c ) {
+            fillSafe( x0 , x1 );
+        } else {
+            clearSafe( x0 , x1 );
+        }
+    }
+    
     inline void fill() {
         for( uint8_t i = 0 ; i < bwidth ; i++ ) {
             *( buffer[currentBuffer] + i ) = 0xff;
@@ -104,9 +168,14 @@ public:
         *( buffer[currentBuffer] + _pos / 8 ) &= ~( 1 << _pos % 8 );
     }
     
+    inline void clearSafe( int16_t _pos ) {
+        if (_pos > width ) _pos = width;
+        if (_pos < 0 ) _pos = 0;
+        *( buffer[currentBuffer] + _pos / 8 ) &= ~( 1 << _pos % 8 );
+    }
+    
     inline void clear( uint16_t x0 , uint16_t x1 ) {
         
-        //Check
         if ( x1 > x0 ) {
             
             do {
@@ -131,6 +200,32 @@ public:
         }
     }
     
+    inline void clearSafe( int16_t x0 , int16_t x1 ) { //Check
+        
+        if ( x1 > x0 ) {
+            
+            do {
+                clearSafe( x1 );
+                x1--;
+            } while( x1 > x0 );
+            
+            clearSafe( x0 );
+            
+        } else if( x1 == x0 ) {
+            
+            clearSafe( x1 );
+            
+        } else {
+            
+            do {
+                clearSafe( x0 );
+                x0--;
+            } while( x0 > x1 );
+            
+            clearSafe( x1 );
+        }
+    }
+    
     inline void clear() {
         for( uint8_t i = 0 ; i < bwidth ; i++ ) {
             *( buffer[currentBuffer] + i ) = 0x00;
@@ -141,24 +236,14 @@ public:
         return buffer[ currentBuffer ]; 
     }
     
-    inline bool get( uint16_t _pos ) {
+    inline bool get( int16_t _pos ) {
+        if (_pos > width ) _pos = width;
+        if (_pos < 0 ) _pos = 0;
         return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
     }
     
-    inline void line( uint16_t _pos , colour c) {
-        if( c ) {
-            line( _pos );
-        } else {
-            clear( _pos );
-        }
-    }
-    
-    inline void fill( uint16_t x0 , uint16_t x1 , colour c ) {
-        if( c ) {
-            fill( x0 , x1 );
-        } else {
-            clear( x0 , x1 );
-        }
+    inline bool getSafe( uint16_t _pos ) {
+        return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
     }
     
     inline void invert() {

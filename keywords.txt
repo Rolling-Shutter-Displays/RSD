@@ -14,10 +14,16 @@ update	KEYWORD2
 line	KEYWORD2
 fill	KEYWORD2
 clear	KEYWORD2
+get	KEYWORD2
+lineSafe	KEYWORD2
+fillSafe	KEYWORD2
+clearSafe	KEYWORD2
+getSafe	KEYWORD2
+copy	KEYWORD2
 attachChannel	KEYWORD2
 attachDraw	KEYWORD2
 getTick	KEYWORD2
-getLastTick	KEYWORD2
+getFine	KEYWORD2
 getPeriod	KEYWORD2
 getFrequency	KEYWORD2
 getLowerTick	KEYWORD2
@@ -42,3 +48,5 @@ CYAN	LITERAL1
 MAGENTA	LITERAL1
 WHITE	LITERAL1
 colour	LITERAL1
+frameCount	LITERAL1
+frameLost	LITERAL1
