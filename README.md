@@ -53,9 +53,19 @@ Una vez que cargamos el Sketch al Arduino, el LED a simple vista debería parpad
 
 ## Ajustes
 
-### Sintonía
-
 ### Cámara
+
+[<img width='15%' src='media/ajustes/Acercamiento1.png'/>](media/ajustes/Acercamiento1.png)
+[<img width='15%' src='media/ajustes/Acercamiento2.png'/>](media/media/ajustes/Acercamiento2.png)
+[<img width='15%' src='media/ajustes/Acercamiento3.png'/>](media/ajustes/Acercamiento3.png)
+[<img width='15%' src='media/ajustes/ISO.png'/>](media/ajustes/ISO.png)
+[<img width='15%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)
+
+Difusor
+
+[<img width='15%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
+[<img width='15%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)
+### Sintonía
 
 ## Uso de la librería
 
