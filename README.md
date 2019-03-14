@@ -1,11 +1,15 @@
 # RSD - Rolling Shutter Display Library 
 
-![Portada](/media/Foto_inicio.jpg)
+![Portada](media/Foto_inicio.jpg)
 
-Fotos
-![RSD Images]()
+Fotos  
+[<img width='20%' src='media/Triangle.jpg'/>](Triangle)
+[<img width='20%' src='media/Filling.jpg'/>](Filling)
+[<img width='20%' src='media/Animation.jpg'/>](Animation)
+[<img width='20%' src='media/CopyBackground.jpg'/>](CopyBackgroung)
+[<img width='20%' src='media/Streaming.jpg'/>](Streaming)
 
-Videos
+Videos  
 ![RSD Videos]()
 
 ## ¿Qué es un Rolling Shutter Display (RSD)?
@@ -20,7 +24,7 @@ Esta librería nos permite crear un RSD, con tan solo un Arduino y un LED!. Así
 Arduino ya trae incorporado un LED y de hecho es posible [construir un RSD con el mismo](youtube), por lo que, en principio, un Arduino es todo lo que se necesita. Sin embargo para poder apreciar el fenómeno de una manera mas efectiva, a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
 
 ### Circuito mínimo
-![minimal setup](/media/Circuito_minimo_conjunto.png) 
+![minimal setup](media/Circuito_minimo_conjunto.png) 
 
 El circuito mínimo es un LED conectado a *cualquiera* de los pins del Arduino con su correspondiente resistencia limitadora de corriente. 
 El valor de la resistencia dependerá del color del LED y de la corriente que queramos que circule por el mismo. Hay que tener en cuenta que la máxima corriente que puede suministrar un pin de Arduino es de alrededor de 40 mA, pero se recomienda no superar los 20 mA. Para la mayoría de los casos, una resistencia de 220 Ω será suficiente. Para un cálculo más preciso te recomiendo esta [calculadora de resistencias para leds](https://www.inventable.eu/paginas/LedResCalculatorSp/LedResCalculatorSp.html).  
@@ -28,7 +32,7 @@ Otra cuestión a tener en cuenta es la orientación del LED. En el circuito prop
 La sintonía del RSD en este esquema la haremos a través del puerto serie.
 
 ### Circuito recomendado
-![recommended setup](/media/Circuito_recomendado_conjunto.png) 
+![recommended setup](media/Circuito_recomendado_conjunto.png) 
 
 El circuito recomendado, consiste en un LED RGB y un potenciómetro de 5 kΩ ~ 10 kΩ. Un LED RGB nos permitirá obtener además de los 3 colores del mismo (rojo, verde y azul), sus combinaciones; es decir, amarillo (rojo + verde), cian (verde + azul), magenta (azul + rojo) y blanco (rojo + verde + azul). Contando el negro como un color, este modo nos permite representar 8 colores. Las mismas consideraciones respecto al LED tenidas en cuenta en el circuito mínimo valen para este caso: un LED RGB no deja de ser un conjunto de 3 LEDs.   
 El potenciómetro, por otro lado, proporciona un control más dinámico de la sintonía del RSD. La diferencia más importante con el circuito mínimo es que no necesitamos tener conectado el Arduino a la PC para sintonizar el RSD.
@@ -39,12 +43,13 @@ El potenciómetro, por otro lado, proporciona un control más dinámico de la si
 - En el entorno de desarrollo de Arduino (IDE), vamos a Programa > Incluir Librería > Añadir librería .ZIP
 - Buscamos el fichero Zip del repositorio que acabamos de descargar y hacemos click en abrir
 
-![library installation](/media/Instalar_libreria.png) 
+![library installation](media/Instalar_libreria.png) 
 
 Una vez instalada la librería, vamos a cargar el primer Sketch para comprobar que todo esté en funcionamiento. Para ello vamos a Archivo > Ejemplos > RSD-master > TestScreen_mono (en el caso del circuito mínimo) o TestScreen_RGB (en el caso del circuito recomendado).  
 Una vez que cargamos el Sketch al Arduino, el LED a simple vista debería parpadear. A medida que acercamos más y más la cámara de un celular al LED, deberíamos ser capaces de ver algo similar a los siguientes patrones:
 
-![Test Screens](/media/) 
+[<img width='50%' src='media/TestScreen_Mono.jpg'/>](TestScreen_Mono "Test Screen Mono")
+[<img width='50%' src='media/TestScreen_RGB.jpg'/>](TestScreen_RGB "Test Screen RGB")
 
 ## Ajustes
 
