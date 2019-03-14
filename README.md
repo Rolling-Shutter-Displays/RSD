@@ -3,11 +3,11 @@
 ![Portada](media/Foto_inicio.jpg)
 
 Fotos  
-[<img width='15%' src='media/Triangle.jpg'/>](Triangle)
-[<img width='15%' src='media/Filling.jpg'/>](Filling)
-[<img width='15%' src='media/Animation.jpg'/>](Animation)
-[<img width='15%' src='media/CopyBackground.jpg'/>](CopyBackgroung)
-[<img width='15%' src='media/Streaming.jpg'/>](Streaming)
+[<img width='15%' src='media/Triangle.jpg'/>](media/Triangle.jpg)
+[<img width='15%' src='media/Filling.jpg'/>](media/Filling.jpg)
+[<img width='15%' src='media/Animation.jpg'/>](media/Animation.jpg)
+[<img width='15%' src='media/CopyBackground.jpg'/>](media/CopyBackground.jpg)
+[<img width='15%' src='media/Streaming.jpg'/>](media/Streaming.jpg)
 
 Videos  
 ![RSD Videos]()
@@ -48,8 +48,8 @@ El potenciómetro, por otro lado, proporciona un control más dinámico de la si
 Una vez instalada la librería, vamos a cargar el primer Sketch para comprobar que todo esté en funcionamiento. Para ello vamos a Archivo > Ejemplos > RSD-master > TestScreen_mono (en el caso del circuito mínimo) o TestScreen_RGB (en el caso del circuito recomendado).  
 Una vez que cargamos el Sketch al Arduino, el LED a simple vista debería parpadear. A medida que acercamos más y más la cámara de un celular al LED, deberíamos ser capaces de ver algo similar a los siguientes patrones:
 
-[<img width='20%' src='media/TestScreen_Mono.jpg'/>](TestScreen_Mono "Test Screen Mono")
-[<img width='20%' src='media/TestScreen_RGB.jpg'/>](TestScreen_RGB "Test Screen RGB")
+[<img width='20%' src='media/TestScreen_Mono.jpg'/>](media/TestScreen_Mono.jpg "Test Screen Mono")
+[<img width='20%' src='media/TestScreen_RGB.jpg'/>](media/TestScreen_RGB.jpg "Test Screen RGB")
 
 ## Ajustes
 
