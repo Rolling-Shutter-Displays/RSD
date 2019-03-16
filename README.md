@@ -9,8 +9,12 @@ Fotos
 [<img width='15%' src='media/CopyBackground.jpg'/>](media/CopyBackground.jpg)
 [<img width='15%' src='media/Streaming.jpg'/>](media/Streaming.jpg)
 
-Videos  
-![RSD Videos]()
+YouTube Videos  
+
+[<img width='20%' src='https://i.ytimg.com/vi/spv1qrix324/0.jpg'/>](https://youtu.be/spv1qrix324)
+[<img width='20%' src='https://i.ytimg.com/vi/mH6nSG8UHA0/0.jpg'/>](https://youtu.be/mH6nSG8UHA0)
+[<img width='20%' src='https://i.ytimg.com/vi/pxOb_LTTh-k/0.jpg'/>](https://youtu.be/pxOb_LTTh-k)
+[<img width='20%' src='https://i.ytimg.com/vi/9zj89XnVqRI/0.jpg'/>](https://youtu.be/9zj89XnVqRI)
 
 ## ¿Qué es un Rolling Shutter Display (RSD)?
 
@@ -34,8 +38,15 @@ La sintonía del RSD en este esquema la haremos a través del puerto serie.
 ### Circuito recomendado
 ![recommended setup](media/Circuito_recomendado_conjunto.png) 
 
-El circuito recomendado, consiste en un LED RGB y un potenciómetro de 5 kΩ ~ 10 kΩ. Un LED RGB nos permitirá obtener además de los 3 colores del mismo (rojo, verde y azul), sus combinaciones; es decir, amarillo (rojo + verde), cian (verde + azul), magenta (azul + rojo) y blanco (rojo + verde + azul). Contando el negro como un color, este modo nos permite representar 8 colores. Las mismas consideraciones respecto al LED tenidas en cuenta en el circuito mínimo valen para este caso: un LED RGB no deja de ser un conjunto de 3 LEDs.   
-El potenciómetro, por otro lado, proporciona un control más dinámico de la sintonía del RSD. La diferencia más importante con el circuito mínimo es que no necesitamos tener conectado el Arduino a la PC para sintonizar el RSD.
+Lista de componentes:
+
+- 1 Arduino
+- 1 LED RGB 5mm cátodo común (en lo posible difuso, si no añadiremos un difursor)
+- 3 resistencias 220 Ω
+- 1 Potenciómetro de entre 5 kΩ ~ 10 kΩ
+
+El LED RGB nos permitirá obtener además de los 3 colores del mismo (rojo, verde y azul), sus combinaciones; es decir, amarillo (rojo + verde), cian (verde + azul), magenta (azul + rojo) y blanco (rojo + verde + azul). Contando el negro como un color, este modo nos permite representar 8 colores. Las mismas consideraciones respecto al LED tenidas en cuenta en el circuito mínimo valen para este caso: un LED RGB no deja de ser un conjunto de 3 LEDs.   
+El potenciómetro, por otro lado, proporciona un control más dinámico de la sintonía del RSD.
 
 ## Software: Instalación de la librería
 
@@ -61,17 +72,20 @@ Una vez que cargamos el Sketch al Arduino, el LED a simple vista debería parpad
 [<img width='15%' src='media/ajustes/ISO.png'/>](media/ajustes/ISO.png)
 [<img width='15%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)
 
+La clave para obtener una buena imágen del RSD es **acercar lo más posible** la cámara al LED, de ser posible que estén en contacto. Para mejorar la nitidez de la imágen debemos aumentar el [ISO](https://es.wikipedia.org/wiki/Escala_de_sensibilidad_fotogr%C3%A1fica) o aumentar la potencia del LED. Cada cámara es distinta y permite o no modificar distintos parámetros, no hay una regla universal por lo que deberás experimentar hasta conseguir el resultado deseado.  
+
 Difusor
 
 [<img width='15%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
-[<img width='15%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)
-### Sintonía
+[<img width='15%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)  
+Para conseguir que los colores se mezclen de manera uniforme, es necesario un buen difusor. Las imagenes anteriores muestran un LED RGB sin y con difusor, como se puede apreciar la diferencia es notable. En este caso, se le agregó un papel de cocina que resulta ser excelente para el efecto buscado. Otro difusor común es la silicona. Hay que tener en cuenta el compromiso entre un buen difuminado y la pérdida de potencia luminosa.
 
-## Uso de la librería
-
-## FAQ
-
-## Manifiesto del proyecto
+### Sintonía  
+Para conseguir una imágen lo más estática posible debemos sintonizar el RSD. De nuevo, cada cámara tiene distinta frecuencia y las variaciones pueden ser mínimas.  
+En el caso del ejemplo TestScreen_Mono, el ajuste lo realizaremos a tráves del puerto serie, para ello en el IDE de Arduino vamos a Herramientas > Monitor serie. Una vez allí ingresando valores de entre 1 y 255, podremos modificar la frecuencia entre +-1 Hz.
+En el caso del ejemplo TestScreen_RGB este ajuste lo realizaremos a través del potenciomentro.  
+En los dos ejemplos anteriores, la variación se produce sobre una frecuencia base de 30 Hz que es la más común en las cámaras, sin embargo también es frecuente encontrarnos con cámaras a 24 Hz. Esta frecuencia la podemos modificar, desde el método `begin(  f_cam , BWIDTH )` en el setup() del scketch.  
+Aún con esta sintonía es muy probable con notes que la pantalla sigue con un mínimo movimiento. Para un ajuste todavía más fino, abrí el ejemplo FineTuning. En este caso realizaremos el ajuste grueso a través del puerto serie y un ajuste fine con el potenciometro.
 
 ---
 
