@@ -243,6 +243,8 @@ public:
     }
     
     inline bool getSafe( uint16_t _pos ) {
+        if (_pos > width ) _pos = width;
+        if (_pos < 0 ) _pos = 0;
         return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
     }
     

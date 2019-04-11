@@ -23,9 +23,9 @@ RSD rsd;
 #define BWIDTH 32
 #define WIDTH ((BWIDTH*8)-1) 
 
-Channel red( 11 , COMMON_CATHODE , BWIDTH );
-Channel green( 3 , COMMON_CATHODE , BWIDTH );
-Channel blue( 6 , COMMON_CATHODE , BWIDTH );
+Channel red( 11 , COMMON_ANODE , BWIDTH );
+Channel green( 3 , COMMON_ANODE , BWIDTH );
+Channel blue( 6 , COMMON_ANODE , BWIDTH );
 
 Screen display( &red , &green , &blue );
 

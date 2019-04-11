@@ -41,7 +41,7 @@ La sintonía del RSD en este esquema la haremos a través del puerto serie.
 Lista de componentes:
 
 - 1 Arduino
-- 1 LED RGB 5mm cátodo común (en lo posible difuso, si no añadiremos un difursor)
+- 1 LED RGB 5mm ánodo común (en lo posible difuso, si no añadiremos un difursor)
 - 3 resistencias 220 Ω
 - 1 Potenciómetro de entre 5 kΩ ~ 10 kΩ
 
