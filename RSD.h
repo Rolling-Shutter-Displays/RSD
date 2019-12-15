@@ -79,6 +79,10 @@ public:
     static float getFrequency();
         
     static void shiftPhase( int _phase );
+    
+    static void switchOn();
+    
+    static void switchOff();
         
         
 private:

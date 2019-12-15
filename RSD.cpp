@@ -36,6 +36,7 @@ static uint8_t channelsCount = 0;
    2: Beging of frame, from library to scketch, ready for process, quick go!
 */
 static volatile uint8_t frameStatus = 1;
+static volatile bool on = true;
 
 static volatile uint16_t pos = 0;
 static volatile uint8_t currentBuffer = 0;
@@ -60,13 +61,13 @@ ISR( TIMER1_COMPA_vect ) {
         
         if ( channels[i]->ledType ) {
             
-            if ( bitmask & ( *( channels[i]->buffer[currentBuffer] + idx ) ) ) {
+            if ( ( bitmask & ( *( channels[i]->buffer[currentBuffer] + idx ) ) ) && ( on ) ) {
                 *(channels[i]->pinPort) &= ~( channels[i]->pinMask );
             } else {
                 *(channels[i]->pinPort) |= channels[i]->pinMask;
             }
         } else {
-            if ( bitmask & ( *( channels[i]->buffer[currentBuffer] + idx ) ) ) {
+            if ( ( bitmask & ( *( channels[i]->buffer[currentBuffer] + idx ) ) ) && ( on ) ) {
                 *(channels[i]->pinPort) |= channels[i]->pinMask;
             } else {
                 *(channels[i]->pinPort) &= ~( channels[i]->pinMask );
@@ -232,4 +233,12 @@ float RSD::getFrequency() {
 
 static void RSD::shiftPhase( int _phase ) {
     phase += _phase;
+}
+
+static void RSD::switchOn() {
+    on = true;
+}
+
+static void RSD::switchOff() {
+    on = false;
 }

@@ -93,8 +93,17 @@ public:
         line( x0 , BLACK );
     }
     
+    void clear( uint16_t x0 , uint16_t x1 ) {
+        fill( x0 , x1 , BLACK );
+    }
+    
     void clearSafe( int16_t x0 ) {
+        
         lineSafe( x0 , BLACK );
+    }
+    
+    void clearSafe( int16_t x0 , int16_t x1 ) {
+        fillSafe( x0 , x1 , BLACK );
     }
     
     void clear( ) {
