@@ -49,7 +49,7 @@ static callbackFunction _draw;
 
 //Interrupt rutine, all the magic happens here
 ISR( TIMER1_COMPA_vect ) {
-    	
+    
 	//Calculate the bit position in the memory that now we need to looking for
 	uint8_t idx =  pos / 8;
 	uint8_t bitmask = ( 1 << pos % 8 ); //The bit-mask
@@ -206,8 +206,14 @@ uint16_t RSD::getHigherFine() {
 bool RSD::setTick( int _tick ) {
 
 	if( ( _tick > getLowerTick() ) && (  _tick < getHigherTick() ) ) {
-		tick = _tick;
-		return true;
+		uint8_t oldSREG = SREG;
+        cli();
+        
+        tick = _tick;
+		
+        SREG = oldSREG;
+        
+        return true;
 	} else {
 		return false; //Maybe we want to change the frequency?
 	}
@@ -216,8 +222,14 @@ bool RSD::setTick( int _tick ) {
 bool RSD::setFine( int _tick ) {
 	
 	if( ( _tick  > getLowerFine() ) && ( _tick  < getHigherFine() ) ) {
-			fine = _tick;
-			return true;
+			uint8_t oldSREG = SREG;
+            cli();
+            
+            fine = _tick;
+			
+            SREG = oldSREG;
+            
+            return true;
 		} else {
 			return false; //Maybe we want to change the tick?
 		}

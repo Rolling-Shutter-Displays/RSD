@@ -68,26 +68,11 @@ public:
         *( buffer[currentBuffer] + _pos / 8 ) |= ( 1 << _pos % 8 );
     }
     
-    inline void line( uint16_t _pos , colour c) {
-        if( c ) {
-            line( _pos );
-        } else {
-            clear( _pos );
-        }
-    }
-    
-    inline void lineSafe( int16_t _pos ) {
-        if (_pos > width ) _pos = width;
-        if (_pos < 0 ) _pos = 0;
+    inline bool lineSafe( int16_t _pos ) {
+        if (_pos > width ) return false;
+        if (_pos < 0 ) return false;
         *( buffer[currentBuffer] + _pos / 8 ) |= ( 1 << _pos % 8 );
-    }
-    
-    inline void lineSafe( uint16_t _pos , colour c) {
-        if( c ) {
-            lineSafe( _pos );
-        } else {
-            clearSafe( _pos );
-        }
+        return true;
     }
     
     inline void fill( uint16_t x0 , uint16_t x1 ) {
@@ -116,45 +101,39 @@ public:
         }
     }
     
-    inline void fill( uint16_t x0 , uint16_t x1 , colour c ) {
-        if( c ) {
-            fill( x0 , x1 );
-        } else {
-            clear( x0 , x1 );
-        }
-    }
     
-    inline void fillSafe( int16_t x0 , int16_t x1 ) { //Check
+    inline bool fillSafe( int16_t x0 , int16_t x1 ) { 
+        
+        if ( ( x0 < 0 ) && ( x1 < 0 ) ) return false;
+        if ( ( x0 > width ) && ( x1 > width ) ) return false;
         
         if ( x1 > x0 ) {
             
+            if ( x1 > width ) x1 = width;
+            if ( x0 < 0 ) x0 = 0;
+            
             do {
-                lineSafe( x1 );
+                line( x1 );
                 x1--;
             } while( x1 > x0 );
             
-            lineSafe( x0 );
+            line( x0 );
             
         } else if( x1 == x0 ) {
             
-            lineSafe( x1 );
+            if ( ( x1 > 0 ) && ( x1 < width ) ) line( x1 );
             
         } else {
             
+            if ( x0 > width ) x0 = width;
+            if ( x1 < 0 ) x1 = 0;
+            
             do {
-                lineSafe( x0 );
+                line( x0 );
                 x0--;
             } while( x0 > x1 );
             
-            lineSafe( x1 );
-        }
-    }
-    
-    inline void fillSafe( uint16_t x0 , uint16_t x1 , colour c ) {
-        if( c ) {
-            fillSafe( x0 , x1 );
-        } else {
-            clearSafe( x0 , x1 );
+            line( x1 );
         }
     }
     
