@@ -125,7 +125,7 @@ static inline void interrupt() {
 }
 
 #if defined(__AVR_ATtinyX5__)
-    #warning "Not ready implemented for this MCU. Make it true collaborating in https://github.com/Rolling-Shutter-Displays/RSD"
+    #error "Not ready implemented for this MCU. Make it true collaborating in https://github.com/Rolling-Shutter-Displays/RSD"
 ISR( TIMER0_COMPA_vect ) {
     interrupt();
 }
@@ -172,20 +172,6 @@ void RSD::initTimer(){
 
 
 #else
-
-void RSD::initTimer(){
-	//Reset registers
-    TCCR1A = 0; // Timer/Counter1 Control Register A, reset
-	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
-	//CTC Mode
-	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
-	//Preescaler configuration
-    TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
-	
-	OCR1A = tick;
-	//Enable Interrupt
-    TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
-}
 
 ISR( TIMER1_COMPA_vect ) {
     interrupt();
