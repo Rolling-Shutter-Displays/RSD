@@ -125,49 +125,49 @@ static inline void interrupt() {
 }
 
 #if defined(__AVR_ATtinyX5__)
-    #error "Not ready implemented for this MCU. Make it true collaborating in https://github.com/Rolling-Shutter-Displays/RSD"
+    #warning "Implemented on timer0, this crashes delay and millis(). To improve collaborate in https://github.com/Rolling-Shutter-Displays/RSD"
 ISR( TIMER0_COMPA_vect ) {
     interrupt();
 }
 
-void findPrescaler( unsigned int frequency ) {
-
-    uint32_t ocr = F_CPU / frequency / 2;
+void RSD::initTimer(){
+	//Reset registers
+    TCCR0B = 0; // Timer/Counter1 Control Register A, reset
+	TCCR0A = 0; // Timer/Counter1 Control Register B, reset
+	
+	//CTC Mode
+    TCCR0A |= ( 1<<WGM01 );
+    
+    //Prescaler configuration
+    uint32_t ocr = F_CPU / ( fcam * width );
     uint8_t prescalarbits = 0b001;  // ck/1
     
     if (ocr > 256) {
-        ocr >>= 3; //divide by 8
-        prescalarbits = 0b010;  // ck/8
-        if (ocr > 256)  {
-          ocr >>= 3; //divide by a further 8
-          prescalarbits = 0b011; //ck/64
+      ocr >>= 3; //divide by 8
+      prescalarbits = 0b010;  // ck/8
+      if (ocr > 256)  {
+        ocr >>= 3; //divide by a further 8
+        prescalarbits = 0b011; //ck/64
+        if (ocr > 256) {
+          ocr >>= 2; //divide by a further 4
+          prescalarbits = 0b100; //ck/256
           if (ocr > 256) {
+            // can't do any better than /1024
             ocr >>= 2; //divide by a further 4
-            prescalarbits = 0b100; //ck/256
-            if (ocr > 256) {
-              // can't do any better than /1024
-              ocr >>= 2; //divide by a further 4
-              prescalarbits = 0b101; //ck/1024
-            }
+            prescalarbits = 0b101; //ck/1024
           }
         }
       }
+    }
+    
+    //Set preescaler
+    TCCR0B |= (prescalarbits << CS00);
+    
     ocr -= 1; //Note we are doing the subtraction of 1 here to save repeatedly calculating ocr from just the frequency in the if tree above
     OCR0A = ocr;
-}
-
-void RSD::initTimer(){
-	//Reset registers
-    TCCR1A = 0; // Timer/Counter1 Control Register A, reset
-	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
-	//CTC Mode
-	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
-	//Preescaler configuration
-    TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
 	
-	OCR1A = tick;
 	//Enable Interrupt
-    TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
+    TIMSK |= (1<<OCIE0A); //Set Output Compare A Match Interrupt Enable
 }
 
 
