@@ -88,7 +88,7 @@ public:
 private:
         
     //Timer one initialization method
-    static void initTimer1();
+    static void initTimer();
         
 };
 

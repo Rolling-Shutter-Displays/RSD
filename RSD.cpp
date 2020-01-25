@@ -48,14 +48,14 @@ static volatile uint32_t frameLost = 0;
 static callbackFunction _draw;
 
 //Interrupt rutine, all the magic happens here
-ISR( TIMER1_COMPA_vect ) {
+static inline void interrupt() {
     
-	//Calculate the bit position in the memory that now we need to looking for
-	uint8_t idx =  pos / 8;
-	uint8_t bitmask = ( 1 << pos % 8 ); //The bit-mask
+    //Calculate the bit position in the memory that now we need to looking for
+    uint8_t idx =  pos / 8;
+    uint8_t bitmask = ( 1 << pos % 8 ); //The bit-mask
 
-	//Depends of the led type, for a 1 in memory (on), we need to turn on or turn off
-	//the pins, acting like a source current or sink current respectively
+    //Depends of the led type, for a 1 in memory (on), we need to turn on or turn off
+    //the pins, acting like a source current or sink current respectively
     
     for ( uint8_t i = 0 ; i < channelsCount ; i++ ) {
         
@@ -75,27 +75,18 @@ ISR( TIMER1_COMPA_vect ) {
         }
     }
     
-  	//Phase shifter
-    
+    //Phase shifter
     if (phase == 0) {
-        
         pos++;
-        
     } else if( phase > 0 ) {
-        
         if ( pos + phase%width < width ) {
             pos = pos + phase%width;
         } else {
             pos = phase%width - ( width - pos );
         }
-        
         phase = 0;
-    
-        
     } else {
-        
         phase++;
-        
     }
     
   	//Special moments
@@ -133,14 +124,87 @@ ISR( TIMER1_COMPA_vect ) {
 
 }
 
-void RSD::initTimer1(){
-	TCCR1A = 0; // Timer/Counter1 Control Register A, reset
-	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
-	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
-	TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
-	OCR1A = tick;
-	TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
+#if defined(__AVR_ATtinyX5__)
+    #warning "Not ready implemented for this MCU. Make it true collaborating in https://github.com/Rolling-Shutter-Displays/RSD"
+ISR( TIMER0_COMPA_vect ) {
+    interrupt();
 }
+
+void findPrescaler( unsigned int frequency ) {
+
+    uint32_t ocr = F_CPU / frequency / 2;
+    uint8_t prescalarbits = 0b001;  // ck/1
+    
+    if (ocr > 256) {
+        ocr >>= 3; //divide by 8
+        prescalarbits = 0b010;  // ck/8
+        if (ocr > 256)  {
+          ocr >>= 3; //divide by a further 8
+          prescalarbits = 0b011; //ck/64
+          if (ocr > 256) {
+            ocr >>= 2; //divide by a further 4
+            prescalarbits = 0b100; //ck/256
+            if (ocr > 256) {
+              // can't do any better than /1024
+              ocr >>= 2; //divide by a further 4
+              prescalarbits = 0b101; //ck/1024
+            }
+          }
+        }
+      }
+    ocr -= 1; //Note we are doing the subtraction of 1 here to save repeatedly calculating ocr from just the frequency in the if tree above
+    OCR0A = ocr;
+}
+
+void RSD::initTimer(){
+	//Reset registers
+    TCCR1A = 0; // Timer/Counter1 Control Register A, reset
+	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
+	//CTC Mode
+	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
+	//Preescaler configuration
+    TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
+	
+	OCR1A = tick;
+	//Enable Interrupt
+    TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
+}
+
+
+#else
+
+void RSD::initTimer(){
+	//Reset registers
+    TCCR1A = 0; // Timer/Counter1 Control Register A, reset
+	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
+	//CTC Mode
+	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
+	//Preescaler configuration
+    TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
+	
+	OCR1A = tick;
+	//Enable Interrupt
+    TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
+}
+
+ISR( TIMER1_COMPA_vect ) {
+    interrupt();
+}
+
+void RSD::initTimer(){
+	//Reset registers
+    TCCR1A = 0; // Timer/Counter1 Control Register A, reset
+	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
+	//CTC Mode
+	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
+	//Preescaler configuration
+    TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
+	
+	OCR1A = tick;
+	//Enable Interrupt
+    TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
+}
+#endif
 
 //Begin
 void RSD::begin( uint8_t _fcam , uint8_t _bwidth ) {
@@ -151,7 +215,7 @@ void RSD::begin( uint8_t _fcam , uint8_t _bwidth ) {
     tick = F_CPU / ( fcam * width );
     fine = tick;
     //Initialize the timer
-	RSD:initTimer1();
+	RSD:initTimer();
 }
 
 //Attach channel objet
