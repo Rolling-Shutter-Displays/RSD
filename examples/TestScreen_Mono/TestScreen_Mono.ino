@@ -29,7 +29,7 @@ void setup() {
   //Setup of the RSD 
   rsd.begin( 30 , BWIDTH );   //begin( frequency , byte resolution )
   
-  rsd.attachChannel( white ); //attachChannel( channel )
+  rsd.attachChannel( &white ); //attachChannel( channel )
   
   rsd.attachDraw( draw );     //attachDraw( callback function )
 

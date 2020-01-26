@@ -1,6 +1,6 @@
 /*
 RSD.cpp - A library to create a rolling shutter display
-Copyright (c) 2018-2019 Facundo Daguerre (a.k.a der faq).  All right reserved.
+Copyright (c) 2018-2020 Facundo Daguerre (a.k.a der faq).  All right reserved.
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
@@ -27,7 +27,7 @@ static volatile uint16_t fine;
 
 static volatile int16_t phase = 0;
 
-static Channel *channels[MAX_CHANNELS];
+static Channel* channels[MAX_CHANNELS];
 static uint8_t channelsCount = 0;
 
 //Signaling variable
@@ -41,14 +41,15 @@ static volatile bool on = true;
 static volatile uint16_t pos = 0;
 static volatile uint8_t currentBuffer = 0;
 
-static volatile uint32_t frameCount = 0;
-static volatile uint32_t frameLost = 0;
+volatile uint32_t frameCount;
+volatile uint32_t frameLost;
 
 //This variable will hold the function acting as event source.
 static callbackFunction _draw;
 
 //Interrupt rutine, all the magic happens here
 static inline void interrupt() {
+    
     
     //Calculate the bit position in the memory that now we need to looking for
     uint8_t idx =  pos / 8;
@@ -58,23 +59,22 @@ static inline void interrupt() {
     //the pins, acting like a source current or sink current respectively
     
     for ( uint8_t i = 0 ; i < channelsCount ; i++ ) {
-        
         if ( channels[i]->ledType ) {
-            
             if ( ( bitmask & ( *( channels[i]->buffer[currentBuffer] + idx ) ) ) && ( on ) ) {
                 *(channels[i]->pinPort) &= ~( channels[i]->pinMask );
             } else {
                 *(channels[i]->pinPort) |= channels[i]->pinMask;
             }
         } else {
-            if ( ( bitmask & ( *( channels[i]->buffer[currentBuffer] + idx ) ) ) && ( on ) ) {
+            if ( ( bitmask & ( *( (channels[i]->buffer[currentBuffer]) + idx ) ) ) ) {
                 *(channels[i]->pinPort) |= channels[i]->pinMask;
             } else {
                 *(channels[i]->pinPort) &= ~( channels[i]->pinMask );
             }
+
         }
     }
-    
+
     //Phase shifter
     if (phase == 0) {
         pos++;
@@ -88,19 +88,28 @@ static inline void interrupt() {
     } else {
         phase++;
     }
-    
+
   	//Special moments
   	if ( pos == width - 1 ) { 
+        #if defined(__AVR_ATtinyX5__)
+        OCR0A = fine; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
+        #else
     	OCR1A = fine; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
+        #endif
   	}
-
+    
   	//If the position is the first
   	if ( pos == width ) { 
         
         // Restore the tick period (thick tuning), don't worry OCR1A is intrisic double buffer too
     	// it will be updated in the next frame
-        OCR1A = tick; 
-    	
+        
+        #if defined(__AVR_ATtinyX5__)
+        OCR0A = tick; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
+        #else
+        OCR1A = tick; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
+        #endif
+
         pos = 0;
         
         if( frameStatus == 1 ) { //And the buffer is ready to swap
@@ -111,12 +120,12 @@ static inline void interrupt() {
             }
             
             currentBuffer = 1 - currentBuffer;
-            
+            //Count frame
             frameCount++;
             //Tells to scketch that is a good moment for begin a process over buffers, via update() function
             frameStatus = 2;
-            
         } else {
+            //Count frame lost
             frameLost++;
         }
     	
@@ -125,21 +134,39 @@ static inline void interrupt() {
 }
 
 #if defined(__AVR_ATtinyX5__)
-    #warning "Implemented on timer0, this crashes delay and millis(). To improve collaborate in https://github.com/Rolling-Shutter-Displays/RSD"
+
+#if F_CPU == 8000000L
+    #warning "Implemented on Timer 0, this crashes delay() and millis(). To improve, collaborate in https://github.com/Rolling-Shutter-Displays/RSD"
+#else
+    #error "Not implemented with this clock. Make it true, collaborating in https://github.com/Rolling-Shutter-Displays/RSD"
+#endif
+
 ISR( TIMER0_COMPA_vect ) {
-    interrupt();
+    interrupt(); 
 }
 
 void RSD::initTimer(){
 	//Reset registers
-    TCCR0B = 0; // Timer/Counter1 Control Register A, reset
-	TCCR0A = 0; // Timer/Counter1 Control Register B, reset
+    TCCR0B = (0<<FOC0A) | (0<<FOC0B) | (0<<WGM02) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+    TCCR0A = (0<<COM0A1) | (0<<COM0A0) | (0<<COM0B1) | (0<<COM0B0) | (0<<WGM01) | (0<<WGM00);
+    // Reset the count to zero
+
+    TCNT0 = 0;
+    // Set the output compare registers to zero
+    OCR0A = 0;
+    OCR0B = 0;
+
+    // Disable all Timer0 interrupts
+    TIMSK &= ~((1<<OCIE0B) | (1<<OCIE0A) | (1<<TOIE0));
+    // Clear the Timer0 interrupt flags
+    TIFR |= ((1<<OCF0B) | (1<<OCF0A) | (1<<TOV0));
+
 	
 	//CTC Mode
     TCCR0A |= ( 1<<WGM01 );
     
-    //Prescaler configuration
-    uint32_t ocr = F_CPU / ( fcam * width );
+    //Prescaler configuration (from https://github.com/SpenceKonde/ATTinyCore/blob/master/avr/cores/tiny/Tone.cpp)
+    uint32_t ocr = F_CPU / ( fcam * width ) ;
     uint8_t prescalarbits = 0b001;  // ck/1
     
     if (ocr > 256) {
@@ -165,6 +192,7 @@ void RSD::initTimer(){
     
     ocr -= 1; //Note we are doing the subtraction of 1 here to save repeatedly calculating ocr from just the frequency in the if tree above
     OCR0A = ocr;
+    tick = fine = ocr;
 	
 	//Enable Interrupt
     TIMSK |= (1<<OCIE0A); //Set Output Compare A Match Interrupt Enable
@@ -181,15 +209,18 @@ void RSD::initTimer(){
 	//Reset registers
     TCCR1A = 0; // Timer/Counter1 Control Register A, reset
 	TCCR1B = 0; // Timer/Counter1 Control Register B, reset
-	//CTC Mode
+	
+    //CTC Mode
 	TCCR1B |= ( 1<<WGM12 ); //CTC w/ TOP in 0CRA
-	//Preescaler configuration
+	
+    //Preescaler configuration
     TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
 	
-	OCR1A = tick;
+	OCR1A = fine = tick;
 	//Enable Interrupt
     TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
 }
+
 #endif
 
 //Begin
@@ -200,13 +231,14 @@ void RSD::begin( uint8_t _fcam , uint8_t _bwidth ) {
     
     tick = F_CPU / ( fcam * width );
     fine = tick;
+
     //Initialize the timer
 	RSD:initTimer();
 }
 
 //Attach channel objet
-void RSD::attachChannel ( Channel ch ) {
-    channels[ channelsCount ] = &ch;
+void RSD::attachChannel ( Channel *ch ) {
+    channels[ channelsCount ] = ch;
     channelsCount++;
 }
 
@@ -255,7 +287,13 @@ uint16_t RSD::getHigherFine() {
 
 bool RSD::setTick( int _tick ) {
 
-	if( ( _tick > getLowerTick() ) && (  _tick < getHigherTick() ) ) {
+#if defined(__AVR_ATtinyX5__)
+    
+    //Not ready implemented
+
+#else
+	
+    if( ( _tick > getLowerTick() ) && (  _tick < getHigherTick() ) ) {
 		uint8_t oldSREG = SREG;
         cli();
         
@@ -267,9 +305,17 @@ bool RSD::setTick( int _tick ) {
 	} else {
 		return false; //Maybe we want to change the frequency?
 	}
+
+#endif
 }
 
 bool RSD::setFine( int _tick ) {
+
+#if defined(__AVR_ATtinyX5__)
+    
+    //Not ready implemented
+
+#else
 	
 	if( ( _tick  > getLowerFine() ) && ( _tick  < getHigherFine() ) ) {
 			uint8_t oldSREG = SREG;
@@ -283,24 +329,42 @@ bool RSD::setFine( int _tick ) {
 		} else {
 			return false; //Maybe we want to change the tick?
 		}
+
+#endif
 }
 
 uint32_t RSD::getPeriod() {
+#if defined(__AVR_ATtinyX5__)
+    
+    //Not ready implemented
+
+#else
+    
 	return (uint32_t) tick * (width - 1) + fine;
+
+#endif
 }
 
 float RSD::getFrequency() {
+#if defined(__AVR_ATtinyX5__)
+    
+    //Not ready implemented
+
+#else
+
 	return (float) F_CPU / getPeriod();
+
+#endif
 }
 
-static void RSD::shiftPhase( int _phase ) {
+void RSD::shiftPhase( int _phase ) {
     phase += _phase;
 }
 
-static void RSD::switchOn() {
+void RSD::switchOn() {
     on = true;
 }
 
-static void RSD::switchOff() {
+ void RSD::switchOff() {
     on = false;
 }

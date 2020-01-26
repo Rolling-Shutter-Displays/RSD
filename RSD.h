@@ -1,6 +1,6 @@
 /*
 RSD.h - A library to make rolling shutter displays
-Copyright (c) 2018-2019 Facundo Daguerre (a.k.a derfaq).  All right reserved.
+Copyright (c) 2018-2020 Facundo Daguerre (a.k.a derfaq).  All right reserved.
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #define MAX_CHANNELS 12 //Maybe more, depends on a freq cam, resolution and f_cpu
 
+
 extern volatile uint32_t frameCount;
 extern volatile uint32_t frameLost; 
 
@@ -46,7 +47,7 @@ public:
         
     // Attach function.
         
-    static void attachChannel( Channel ch );
+    static void attachChannel( Channel *ch );
         
     // Update function. Needs to be called in the loop() 
         

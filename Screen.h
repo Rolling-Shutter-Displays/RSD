@@ -1,6 +1,6 @@
 /*
 Screen.h - Part of RSD library.
-Copyright (c) 2018-2019 Facundo Daguerre (a.k.a der faq).  All right reserved.
+Copyright (c) 2018-2020 Facundo Daguerre (a.k.a der faq).  All right reserved.
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
@@ -115,7 +115,7 @@ public:
         if ( Red->get( _pos ) ) c += 2;
         if ( Green->get( _pos ) ) c += 4;
         if ( Blue->get( _pos ) ) c += 1;
-        return c;
+        return (colour)c;
     }
     
     colour getSafe( int16_t _pos ) { 
@@ -123,7 +123,7 @@ public:
         if ( Red->getSafe( _pos ) ) c += 2;
         if ( Green->getSafe( _pos ) ) c += 4;
         if ( Blue->getSafe( _pos ) ) c += 1;
-        return c;
+        return (colour)c;
     }
     
 private:

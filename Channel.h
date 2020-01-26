@@ -1,6 +1,6 @@
 /*
 Channel.h - Part of RSD library.
-Copyright (c) 2018-2019 Facundo Daguerre (a.k.a der faq).  All right reserved.
+Copyright (c) 2018-2020 Facundo Daguerre (a.k.a der faq).  All right reserved.
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
@@ -31,25 +31,25 @@ class Channel {
 public:
     
     //Make up variables
-    uint8_t *pinPort;
+    uint8_t* pinPort;
     uint8_t pinMask;
     common_type ledType;
     uint8_t bwidth;
     uint16_t width;
     
     //Double buffer video memory
-    uint8_t *buffer[ 2 ];
+    uint8_t* buffer[ 2 ];
     
     //Swap variables
     uint8_t currentBuffer;
-    uint8_t * currentBufferP = & currentBuffer;
+    uint8_t* currentBufferP = &currentBuffer;
     
     //Constructor
     Channel( uint8_t pin , common_type commonType , uint8_t _bwidth ) {
     
         ledType = commonType;
     
-        pinPort = portOutputRegister( digitalPinToPort( pin ) );
+        pinPort = (uint8_t*)portOutputRegister( digitalPinToPort( pin ) );
         pinMask = digitalPinToBitMask( pin );
         pinMode( pin , OUTPUT );
     
@@ -57,8 +57,8 @@ public:
         width = (_bwidth*8) - 1;
     
         // Allocate and clean memory for buffers
-        buffer[0] = calloc( _bwidth , 1 );
-        buffer[1] = calloc( _bwidth , 1 ); 
+        buffer[0] = (uint8_t*)calloc( _bwidth , sizeof(uint8_t) );
+        buffer[1] = (uint8_t*)calloc( _bwidth , sizeof(uint8_t) ); 
     
     }
     
