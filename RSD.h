@@ -43,7 +43,7 @@ public:
         
     // Begin function. Needs to be called in the setup()
         
-    static void begin( uint8_t f_cam , uint8_t _bwidth );
+    static void begin( float f_cam , uint8_t _bwidth );
         
     // Attach function.
         
@@ -59,11 +59,11 @@ public:
 
     // Tunning functions
     
-    static uint16_t getTick();
+    static uint16_t getThick();
     
-    static uint16_t getLowerTick();
+    static uint16_t getLowerThick();
 
-    static uint16_t getHigherTick();
+    static uint16_t getHigherThick();
 
     static uint16_t getFine();
 
@@ -71,9 +71,11 @@ public:
 
     static uint16_t getHigherFine();
 
-    static bool setTick( int _tick ) ;
+    static void setFrequency( float freq );
 
-    static bool setFine( int _last );
+    static bool setThick( int _thick ) ;
+
+    static bool setFine( int _fine );
 
     static uint32_t getPeriod();
 

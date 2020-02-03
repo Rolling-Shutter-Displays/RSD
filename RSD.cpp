@@ -18,11 +18,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 //Sync variables for the timer
 
-static uint8_t fcam;
+static uint8_t freq;
 static uint8_t bwidth;
 static volatile uint16_t width;
 
-static volatile uint16_t tick;
+static volatile uint16_t thick;
 static volatile uint16_t fine;
 
 static volatile int16_t phase = 0;
@@ -105,9 +105,9 @@ static inline void interrupt() {
     	// it will be updated in the next frame
         
         #if defined(__AVR_ATtinyX5__)
-        OCR0A = tick; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
+        OCR0A = thick; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
         #else
-        OCR1A = tick; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
+        OCR1A = thick; //fine correction of frequency <<-- this method can't be for general frequency, luckily work's really fine at 30 Hz
         #endif
 
         pos = 0;
@@ -192,7 +192,7 @@ void RSD::initTimer(){
     
     ocr -= 1; //Note we are doing the subtraction of 1 here to save repeatedly calculating ocr from just the frequency in the if tree above
     OCR0A = ocr;
-    tick = fine = ocr;
+    thick = fine = ocr;
 	
 	//Enable Interrupt
     TIMSK |= (1<<OCIE0A); //Set Output Compare A Match Interrupt Enable
@@ -216,7 +216,7 @@ void RSD::initTimer(){
     //Preescaler configuration
     TCCR1B |= ( 1<<CS10 );  //No preescaling F_CPU (fine tunning)
 	
-	OCR1A = fine = tick;
+	OCR1A = thick;
 	//Enable Interrupt
     TIMSK1 |= ( 1<<OCIE1A ); //Set Output Compare A Match Interrupt Enable
 }
@@ -224,16 +224,18 @@ void RSD::initTimer(){
 #endif
 
 //Begin
-void RSD::begin( uint8_t _fcam , uint8_t _bwidth ) {
-    fcam = _fcam;
+void RSD::begin( float _freq , uint8_t _bwidth ) {
     bwidth = _bwidth;
     width = _bwidth*8;
     
-    tick = F_CPU / ( fcam * width );
-    fine = tick;
+    RSD::setFrequency( _freq );
+    /*
+    thick = F_CPU / ( _freq * width );
+    fine = thick;
+    */
 
     //Initialize the timer
-	RSD:initTimer();
+	RSD::initTimer();
 }
 
 //Attach channel objet
@@ -261,16 +263,16 @@ void RSD::update() {
 
 //Tuning functions
 
-uint16_t RSD::getTick() {
-	return	tick;
+uint16_t RSD::getThick() {
+	return	thick;
 }
 
-uint16_t RSD::getLowerTick() {
-	return	F_CPU / ( ( fcam + 1 ) * width );
+uint16_t RSD::getLowerThick() {
+	return	F_CPU / ( ( freq + 1 ) * width );
 }
 
-uint16_t RSD::getHigherTick() {
-	return	F_CPU / ( ( fcam - 1 ) * width );
+uint16_t RSD::getHigherThick() {
+	return	F_CPU / ( ( freq - 1 ) * width );
 }
 
 uint16_t RSD::getFine() {
@@ -278,14 +280,14 @@ uint16_t RSD::getFine() {
 }
 
 uint16_t RSD::getLowerFine() {
-	return	tick - ( width - 1 ); //It this right? I doubt it
+	return	thick - ( width - 1 ); 
 }
 
 uint16_t RSD::getHigherFine() {
-	return	tick + ( width - 1 );  //It this right? I doubt it
+	return	thick + ( width - 1 ); 
 }
 
-bool RSD::setTick( int _tick ) {
+bool RSD::setThick( int _thick ) {
 
 #if defined(__AVR_ATtinyX5__)
     
@@ -293,11 +295,11 @@ bool RSD::setTick( int _tick ) {
 
 #else
 	
-    if( ( _tick > getLowerTick() ) && (  _tick < getHigherTick() ) ) {
+    if( ( _thick > getLowerThick() ) && (  _thick < getHigherThick() ) ) {
 		uint8_t oldSREG = SREG;
         cli();
         
-        tick = _tick;
+        thick = _thick;
 		
         SREG = oldSREG;
         
@@ -309,7 +311,7 @@ bool RSD::setTick( int _tick ) {
 #endif
 }
 
-bool RSD::setFine( int _tick ) {
+bool RSD::setFine( int _fine ) {
 
 #if defined(__AVR_ATtinyX5__)
     
@@ -317,11 +319,11 @@ bool RSD::setFine( int _tick ) {
 
 #else
 	
-	if( ( _tick  > getLowerFine() ) && ( _tick  < getHigherFine() ) ) {
+	if( ( _fine  > getLowerFine() ) && ( _fine  < getHigherFine() ) ) {
 			uint8_t oldSREG = SREG;
             cli();
             
-            fine = _tick;
+            fine = _fine;
 			
             SREG = oldSREG;
             
@@ -333,6 +335,14 @@ bool RSD::setFine( int _tick ) {
 #endif
 }
 
+void RSD::setFrequency( float _freq ) {
+    unsigned int _ticks = F_CPU / ( _freq * width ) ;
+    thick = _ticks;
+
+    unsigned int _fine = F_CPU / _freq - _ticks * ( width - 1 ) ;
+    fine = _fine;
+}
+
 uint32_t RSD::getPeriod() {
 #if defined(__AVR_ATtinyX5__)
     
@@ -340,7 +350,7 @@ uint32_t RSD::getPeriod() {
 
 #else
     
-	return (uint32_t) tick * (width - 1) + fine;
+	return (uint32_t) thick * (width - 1) + fine;
 
 #endif
 }
