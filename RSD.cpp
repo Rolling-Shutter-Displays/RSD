@@ -229,6 +229,7 @@ void RSD::begin( float _freq , uint8_t _bwidth ) {
     width = _bwidth*8;
     
     RSD::setFrequency( _freq );
+    freq = (uint8_t) _freq;
     /*
     thick = F_CPU / ( _freq * width );
     fine = thick;
