@@ -22,15 +22,15 @@ getSafe	KEYWORD2
 copy	KEYWORD2
 attachChannel	KEYWORD2
 attachDraw	KEYWORD2
-getTick	KEYWORD2
+getThick	KEYWORD2
 getFine	KEYWORD2
 getPeriod	KEYWORD2
 getFrequency	KEYWORD2
-getLowerTick	KEYWORD2
-getHigherTick	KEYWORD2
+getLowerThick	KEYWORD2
+getHigherThick	KEYWORD2
 getLowerFine	KEYWORD2
 getHigherFine	KEYWORD2
-setTick	KEYWORD2
+setThick	KEYWORD2
 setFine	KEYWORD2
 shiftPhase	KEYWORD2
 
