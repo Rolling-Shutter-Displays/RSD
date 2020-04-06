@@ -147,10 +147,11 @@ public:
         *( buffer[currentBuffer] + _pos / 8 ) &= ~( 1 << _pos % 8 );
     }
     
-    inline void clearSafe( int16_t _pos ) {
-        if (_pos > width ) _pos = width;
-        if (_pos < 0 ) _pos = 0;
+    inline bool clearSafe( int16_t _pos ) {
+        if (_pos > width ) return false;
+        if (_pos < 0 ) return false;
         *( buffer[currentBuffer] + _pos / 8 ) &= ~( 1 << _pos % 8 );
+        return true;
     }
     
     inline void clear( uint16_t x0 , uint16_t x1 ) {
@@ -179,7 +180,7 @@ public:
         }
     }
     
-    inline void clearSafe( int16_t x0 , int16_t x1 ) { //Check
+    inline void clearSafe( int16_t x0 , int16_t x1 ) { //TODO
         
         if ( x1 > x0 ) {
             
