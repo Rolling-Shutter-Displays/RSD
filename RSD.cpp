@@ -66,7 +66,7 @@ static inline void interrupt() {
                 *(channels[i]->pinPort) |= channels[i]->pinMask;
             }
         } else {
-            if ( ( bitmask & ( *( (channels[i]->buffer[currentBuffer]) + idx ) ) ) ) {
+            if ( ( bitmask & ( *( (channels[i]->buffer[currentBuffer]) + idx ) ) ) && ( on ) ) {
                 *(channels[i]->pinPort) |= channels[i]->pinMask;
             } else {
                 *(channels[i]->pinPort) &= ~( channels[i]->pinMask );
