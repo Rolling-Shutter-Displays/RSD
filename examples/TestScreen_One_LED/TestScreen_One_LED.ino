@@ -36,21 +36,22 @@ void setup() {
   rsd.attachDraw( draw );      //attachDraw( callback function )
 
   Serial.begin( 9600 );
+  
 }
 
 void loop() {
   //Run the engine
   rsd.update();
-
-  // Tuning: Analog way
-  /*
-  float freq = 30.0 - ( ( (float)analogRead( A0 ) / 1023.0 ) - 0.5 );
-  rsd.setFrequency( freq );
-  */
   
   //Tuning: Fixed way
   /*
   rsd.setFrequency( 29.987 ); // Samsung S6 Edge 
+  */
+
+  //Tuning: Analog way
+  /*
+  float freq = 30.0 - ( ( (float)analogRead( A0 ) / 1023.0 ) - 0.5 );
+  rsd.setFrequency( freq );
   */
   
   //Tuning: Serial way
@@ -68,6 +69,7 @@ void loop() {
   Serial.print( rsd.getThick() );
   Serial.print(" , fine: ");
   Serial.println( rsd.getFine() );
+  
 }
 
 //Let's draw!
