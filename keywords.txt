@@ -30,6 +30,7 @@ getLowerThick	KEYWORD2
 getHigherThick	KEYWORD2
 getLowerFine	KEYWORD2
 getHigherFine	KEYWORD2
+setFrequency	KEYWORD2
 setThick	KEYWORD2
 setFine	KEYWORD2
 shiftPhase	KEYWORD2
