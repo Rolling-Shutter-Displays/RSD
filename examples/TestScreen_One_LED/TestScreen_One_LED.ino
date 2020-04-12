@@ -22,7 +22,7 @@ RSD rsd;
 #define BWIDTH 32             //Byte resolution
 #define WIDTH (BWIDTH*8 - 1)  //Line resolution
 
-#define LED_PIN 13
+#define LED_PIN 8
 
 //Channel( pin , led mode , byte resolution )
 Channel white( LED_PIN , COMMON_CATHODE , BWIDTH );
