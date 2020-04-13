@@ -2,13 +2,14 @@
   ShiftPhase.ino
 
   This is a example sketch to show how to shift the screen of the
-  RSD once you have the frequency, for this last use the FineTuning example.
+  RSD.
 
   Use the potentiometer to shift the phase of the RSD.
 
-  *For full explanation see: https://github.com/Rolling-Shutter-Displays/RSD
+  For further explanation see: https://github.com/Rolling-Shutter-Displays/RSD
   
   created 5 Mar 2019
+  modified 12 Apr 2020
   by derfaq
   
   This example code is in the public domain.
@@ -29,28 +30,30 @@ Channel blue( 6 , COMMON_ANODE , BWIDTH );
 Screen display( &red , &green , &blue );
 
 void setup() {
+
   //Setup of the RSD
   rsd.begin( 30 , BWIDTH );
-  
+
   rsd.attachChannel( &red );
   rsd.attachChannel( &green );
   rsd.attachChannel( &blue );
 
   rsd.attachDraw( draw );
+
+  Serial.begin( 9600 );
+
 }
 
 void loop() {
+
   //Run the engine
   rsd.update();
-  
-  //Tuning: Fixed way
-  // @frsd: 29.9819164276 , BWIDTH : 32 , tick: 2084 , fine: 2235 //Samsung S6
-  rsd.setTick( 2084 );
-  rsd.setFine( 2235 );
+
 }
 
 //Let's draw!
 void draw() {
+
   display.clear();
   
   //Standarized order of the SMPTE/EBU color bar image : https://en.wikipedia.org/wiki/SMPTE_color_bars
@@ -66,6 +69,8 @@ void draw() {
   }
 
   //Shift phase: Analog way
-  rsd.shiftPhase( map( analogRead(0) , 0 , 1023 , -1 , +2 ) );
+  int shift = map( analogRead( A0 ) , 0 , 1023 , -1 , 3 );
+  rsd.shiftPhase( shift );
+  Serial.println( shift );
 
 }
