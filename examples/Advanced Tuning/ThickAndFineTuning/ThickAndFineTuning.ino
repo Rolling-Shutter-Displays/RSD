@@ -4,7 +4,7 @@
   This is a example sketch to show how to fine tuning the RSD.
 
   Open the serial monitor to tuning the RSD. Send a number between 1 and 255, and
-  you can tuning it in the range of +-1 Hz. Use the potentiometer for fine tuning.
+  you can tuning it in the range of +-1 Hz (thick tuning). Use the potentiometer for fine tuning.
   The data in the serial monitor shows the frequency of the RSD.
 
   For further explanation see: https://github.com/Rolling-Shutter-Displays/RSD
