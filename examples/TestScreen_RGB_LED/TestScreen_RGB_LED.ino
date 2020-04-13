@@ -21,9 +21,10 @@
 #include <Screen.h>
 
 RSD rsd;
-#define BWIDTH 32
-#define WIDTH ((BWIDTH*8)-1)
+#define BWIDTH 32              //Byte resolution
+#define WIDTH ((BWIDTH*8)-1)   //Line resolution
 
+//Channel( pin , led mode , byte resolution )
 Channel red( 11 , COMMON_ANODE , BWIDTH );
 Channel green( 3 , COMMON_ANODE , BWIDTH );
 Channel blue( 6 , COMMON_ANODE , BWIDTH );
@@ -33,13 +34,13 @@ Screen display( &red , &green , &blue );
 void setup() {
 
   //Setup of the RSD 
-  rsd.begin( 30 , BWIDTH );
+  rsd.begin( 30 , BWIDTH );      //begin( frequency , byte resolution )
   
-  rsd.attachChannel( &red );
+  rsd.attachChannel( &red );     //attachChannel( channel )
   rsd.attachChannel( &green );
   rsd.attachChannel( &blue );
 
-  rsd.attachDraw( draw );
+  rsd.attachDraw( draw );        //attachDraw( callback function )
 
   Serial.begin( 9600 );
   
@@ -61,7 +62,7 @@ void loop() {
   
   //Tuning: Serial way
   /*
-  if ( Serial.available() ){
+  if ( Serial.available() ) {
     float freq = Serial.parseFloat();
     if ( freq != 0 ) rsd.setFrequency( freq );
   }
@@ -69,13 +70,9 @@ void loop() {
   
   //Serial diagnosis
   Serial.print("@frsd: ");
-  Serial.print( rsd.getFrequency() , 10 );
-  Serial.print(" Lines resolution: ");
-  Serial.print( BWIDTH*8 );
-  Serial.print(" , Thick: ");
-  Serial.print( rsd.getThick() );
-  Serial.print(" , Fine: ");
-  Serial.println( rsd.getFine() );
+  Serial.print( rsd.getFrequency() , 6 );
+  Serial.print(" Lines: ");
+  Serial.println( BWIDTH*8 );
   
 }
 

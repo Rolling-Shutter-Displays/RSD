@@ -57,20 +57,16 @@ void loop() {
   */
   
   //Tuning: Serial way
-  if ( Serial.available() ){
+  if ( Serial.available() ) {
     float freq = Serial.parseFloat();
     if ( freq != 0 ) rsd.setFrequency( freq );
   }
   
   //Serial diagnosis
   Serial.print("@frsd: ");
-  Serial.print( rsd.getFrequency() , 10 );
-  Serial.print(" Lines resolution: ");
-  Serial.print( BWIDTH*8 );
-  Serial.print(" , Thick: ");
-  Serial.print( rsd.getThick() );
-  Serial.print(" , Fine: ");
-  Serial.println( rsd.getFine() );
+  Serial.print( rsd.getFrequency() , 6 );
+  Serial.print(" Lines: ");
+  Serial.println( BWIDTH*8 );
   
 }
 
