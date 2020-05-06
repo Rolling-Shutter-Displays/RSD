@@ -22,7 +22,7 @@ Un Rolling Shutter Display, abreviado RSD, es un dispositivo capaz de producir i
 
 Rolling Shutter Display Library, es una librería para Arduino UNO y semejantes, *Arduino Nano, Mini, Adafruit METRO 328, LilyPad Simple Board, etc; es decir, arquitecturas basadas en el microcontrolador ATmega328*. Provee métodos y funciones para sintonizar y controlar el/los LEDs, además de una interfaz de programación simple (API), para facilitar el dibujo en pantalla.
 
-Esta librería nos permite crear un RSD, con tan solo un Arduino y un LED!. Así que, antes de entrar en detalles, no hay excusas para que no la pruebes por vos mismo.
+Esta librería nos permite crear un RSD, con tan solo un Arduino y un LED!
 
 ## Hardware: Circuitos básicos
 Arduino ya trae incorporado un LED y de hecho es posible [construir un RSD con el mismo](youtube), por lo que, en principio, un Arduino es todo lo que se necesita. Sin embargo para poder apreciar el fenómeno de una manera mas efectiva, a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
@@ -66,21 +66,34 @@ Una vez que cargamos el Sketch al Arduino, el LED a simple vista debería parpad
 
 ### Cámara
 
-[<img width='15%' src='media/ajustes/Acercamiento1.png'/>](media/ajustes/Acercamiento1.png)
-[<img width='15%' src='media/ajustes/Acercamiento2.png'/>](media/media/ajustes/Acercamiento2.png)
-[<img width='15%' src='media/ajustes/Acercamiento3.png'/>](media/ajustes/Acercamiento3.png)
-[<img width='15%' src='media/ajustes/ISO.png'/>](media/ajustes/ISO.png)
-[<img width='15%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)
+#### Distancia
 
-La clave para obtener una buena imágen del RSD es **acercar lo más posible** la cámara al LED, de ser posible que estén en contacto. Para mejorar la nitidez de la imágen debemos aumentar el [ISO](https://es.wikipedia.org/wiki/Escala_de_sensibilidad_fotogr%C3%A1fica) o aumentar la potencia del LED. Cada cámara es distinta y permite o no modificar distintos parámetros, no hay una regla universal por lo que deberás experimentar hasta conseguir el resultado deseado.  
+[<img width='20%' src='media/ajustes/Acercamiento1.png'/>](media/ajustes/Acercamiento1.png)
+[<img width='20%' src='media/ajustes/Acercamiento2.png'/>](media/media/ajustes/Acercamiento2.png)
+[<img width='20%' src='media/ajustes/Acercamiento3.png'/>](media/ajustes/Acercamiento3.png)
 
-Difusor
+La clave para obtener una buena imágen RSD es **acercar lo más posible** la cámara al LED, o viceversa; de ser posible que estén en contacto y centrados.
 
-[<img width='15%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
-[<img width='15%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)  
+#### Sensibilidad fotográfica (ISO)
+
+[<img width='30%' src='media/ajustes/ISO.png'/>](media/ajustes/ISO.png)
+[<img width='30%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)
+
+Cada cámara permite o no, modificar distintos parámetros en los ditintos modos que posee. Para mejorar la nitidez de la imágen debemos aumentar el [ISO](https://es.wikipedia.org/wiki/Escala_de_sensibilidad_fotogr%C3%A1fica) que generalmente se accede en el modo profesional o manual.
+
+### LED
+
+#### Potencia
+aumentar la potencia del LED. 
+
+#### Difusor
+
+[<img width='30%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
+[<img width='30%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)  
+
 Para conseguir que los colores se mezclen de manera uniforme, es necesario un buen difusor. Las imagenes anteriores muestran un LED RGB sin y con difusor, como se puede apreciar la diferencia es notable. En este caso, se le agregó un papel de cocina que resulta ser excelente para el efecto buscado. Otro difusor común es la silicona. Hay que tener en cuenta el compromiso entre un buen difuminado y la pérdida de potencia luminosa.
 
-### Sintonía  
+### Sintonía
 Para conseguir una imágen lo más estática posible debemos sintonizar el RSD. De nuevo, cada cámara tiene distinta frecuencia y las variaciones pueden ser mínimas.  
 En el caso del ejemplo TestScreen_Mono, el ajuste lo realizaremos a tráves del puerto serie, para ello en el IDE de Arduino vamos a Herramientas > Monitor serie. Una vez allí ingresando valores de entre 1 y 255, podremos modificar la frecuencia entre +-1 Hz.
 En el caso del ejemplo TestScreen_RGB este ajuste lo realizaremos a través del potenciomentro.  
