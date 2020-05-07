@@ -86,8 +86,8 @@ Cada cámara permite o no, modificar distintos parámetros en los distintos modo
 
 #### Potencia
 
-A veces sucede que la cámara no permite controlar el ISO o que, por ejemplo, sí permite controlarlo en el modo de cámara profesional pero no en el modo video. La solución en esos casos es aumentar la potencia del LED. 
-Aumentar la potencia además de mejorar la nitidez, también permite el uso de mejores difusores (ver a continuación) y aumenta el area y la distancia a la que puede observarse la imágen RSD. Por supuesto tiene un límite, a partir de cierto umbral la cámara se satura y cualquier color se ve blanco.
+Puede darse el caso que la cámara no permite controlar el ISO o que, por ejemplo, sí permite controlarlo en el modo de cámara profesional pero no en el modo video. La solución en esos casos es aumentar la potencia del LED. 
+Aumentar la potencia además de mejorar la nitidez, también permite el uso de mejores difusores (ver a continuación) y aumenta el area y la distancia a la que puede observarse la imágen RSD. Por supuesto tiene un límite, a partir de cierto umbral la cámara se satura y cualquier color se ve blanco. 
 Para aumentar la potencia hay que modificar el circuito propuesto, esa discusión queda fuera del alcance de este documento.
 
 #### Difusor
@@ -95,7 +95,9 @@ Para aumentar la potencia hay que modificar el circuito propuesto, esa discusió
 [<img width='20%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
 [<img width='20%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)  
 
-Para conseguir que los colores se mezclen de manera uniforme, es necesario un buen difusor. Las imagenes anteriores muestran un LED RGB sin y con difusor, como se puede apreciar la diferencia es notable. En este caso, se le agregó un papel de cocina que resulta ser excelente para el efecto buscado. Otro difusor común es la silicona. Hay que tener en cuenta el compromiso entre un buen difuminado y la pérdida de potencia luminosa.
+Para conseguir que los colores se mezclen de manera uniforme es necesario un buen difusor. Para ello existen LEDs cuyo encapsulado es un difusor en sí (RGB Diffused).  
+Las imagenes anteriores muestran un LED (RGB Clear) sin y con difusor, como se puede apreciar la diferencia es notable. En este caso, se le agregó una tira de papel de cocina que resulta ser excelente para el efecto buscado. Otro difusor común es la silicona. 
+Hay que tener en cuenta el compromiso entre un buen difuminado y la pérdida de potencia luminosa con la consecuente pérdida de nitidez en la imágen.
 
 ### Sintonía
 
