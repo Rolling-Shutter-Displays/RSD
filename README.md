@@ -87,7 +87,9 @@ Cada cámara permite o no, modificar distintos parámetros en los distintos modo
 #### Potencia 
 
 Puede darse el caso que la cámara no permite controlar el ISO o que, por ejemplo, sí permite controlarlo en el modo de cámara profesional pero no en el modo video. La solución en esos casos es aumentar la potencia del LED. 
+
 Aumentar la potencia además de mejorar la nitidez, también permite el uso de mejores difusores (ver a continuación) y aumenta el area y la distancia a la que puede observarse la imágen RSD. Por supuesto tiene un límite, a partir de cierto umbral la cámara se satura y cualquier color se ve blanco. 
+
 Para aumentar la potencia hay que modificar el circuito propuesto, esa discusión queda fuera del alcance de este documento.
 
 #### Difusor
@@ -95,16 +97,20 @@ Para aumentar la potencia hay que modificar el circuito propuesto, esa discusió
 [<img width='20%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
 [<img width='20%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)  
 
-Para conseguir que los colores se mezclen de manera uniforme es necesario un buen difusor.   
+Para conseguir que los colores se mezclen de manera uniforme es necesario un buen difusor.
+
 Las imagenes anteriores muestran un LED (RGB Clear/Transparente) sin y con difusor, como se puede apreciar la diferencia es notable. En este caso, se le agregó una tira de papel de cocina que resulta ser excelente para el efecto buscado. Otro material común es la silicona. Existen LEDs cuyo encapsulado es un difusor en sí (RGB Diffused/Difuso).
+
 Hay que tener en cuenta el compromiso entre un buen difuminado y la pérdida de potencia luminosa con la consecuente pérdida de nitidez en la imágen.
 
 ### RSD - Sintonía
 
 Para conseguir una imágen lo más estática posible debemos sintonizar el RSD. De nuevo, cada cámara tiene distinta frecuencia y las variaciones pueden ser mínimas.  
+
 En el caso del ejemplo TestScreen_Mono, el ajuste lo realizaremos a tráves del puerto serie, para ello en el IDE de Arduino vamos a Herramientas > Monitor serie. Una vez allí ingresando valores de entre 1 y 255, podremos modificar la frecuencia entre +-1 Hz.
 En el caso del ejemplo TestScreen_RGB este ajuste lo realizaremos a través del potenciomentro.  
 En los dos ejemplos anteriores, la variación se produce sobre una frecuencia base de 30 Hz que es la más común en las cámaras, sin embargo también es frecuente encontrarnos con cámaras a 24 Hz. Esta frecuencia la podemos modificar, desde el método `begin(  f_cam , BWIDTH )` en el setup() del scketch.  
+
 Aún con esta sintonía es muy probable con notes que la pantalla sigue con un mínimo movimiento. Para un ajuste todavía más fino, abrí el ejemplo FineTuning. En este caso realizaremos el ajuste grueso a través del puerto serie y un ajuste fine con el potenciometro.
 
 ---
