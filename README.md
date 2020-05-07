@@ -76,24 +76,29 @@ La clave para obtener una buena imágen RSD es **acercar lo más posible** la c�
 
 #### Sensibilidad fotográfica (ISO)
 
-[<img width='30%' src='media/ajustes/ISO.png'/>](media/ajustes/ISO.png)
-[<img width='30%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)
+[<img width='20%' src='media/ajustes/Acercamiento3.png'/>](media/ajustes/Acercamiento3.png)
+[<img width='20%' src='media/ajustes/ISO.png'/>](media/ajustes/ISO.png)
+[<img width='20%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)
 
-Cada cámara permite o no, modificar distintos parámetros en los ditintos modos que posee. Para mejorar la nitidez de la imágen debemos aumentar el [ISO](https://es.wikipedia.org/wiki/Escala_de_sensibilidad_fotogr%C3%A1fica) que generalmente se accede en el modo profesional o manual.
+Cada cámara permite o no, modificar distintos parámetros en los distintos modos que posee. Para mejorar la nitidez de la imágen debemos aumentar el [ISO](https://es.wikipedia.org/wiki/Escala_de_sensibilidad_fotogr%C3%A1fica) que generalmente se accede en el modo profesional o manual.
 
 ### LED
 
 #### Potencia
-aumentar la potencia del LED. 
+
+A veces sucede que la cámara no permite controlar el ISO o que, por ejemplo, sí permite controlarlo en el modo de cámara profesional pero no en el modo video. La solución en esos casos es aumentar la potencia del LED. 
+Aumentar la potencia además de mejorar la nitidez, también permite el uso de mejores difusores (ver a continuación) y aumenta el area y la distancia a la que puede observarse la imágen RSD. Por supuesto tiene un límite, a partir de cierto umbral la cámara se satura y cualquier color se ve blanco.
+Para aumentar la potencia hay que modificar el circuito propuesto, esa discusión queda fuera del alcance de este documento.
 
 #### Difusor
 
-[<img width='30%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
-[<img width='30%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)  
+[<img width='20%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
+[<img width='20%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)  
 
 Para conseguir que los colores se mezclen de manera uniforme, es necesario un buen difusor. Las imagenes anteriores muestran un LED RGB sin y con difusor, como se puede apreciar la diferencia es notable. En este caso, se le agregó un papel de cocina que resulta ser excelente para el efecto buscado. Otro difusor común es la silicona. Hay que tener en cuenta el compromiso entre un buen difuminado y la pérdida de potencia luminosa.
 
 ### Sintonía
+
 Para conseguir una imágen lo más estática posible debemos sintonizar el RSD. De nuevo, cada cámara tiene distinta frecuencia y las variaciones pueden ser mínimas.  
 En el caso del ejemplo TestScreen_Mono, el ajuste lo realizaremos a tráves del puerto serie, para ello en el IDE de Arduino vamos a Herramientas > Monitor serie. Una vez allí ingresando valores de entre 1 y 255, podremos modificar la frecuencia entre +-1 Hz.
 En el caso del ejemplo TestScreen_RGB este ajuste lo realizaremos a través del potenciomentro.  
