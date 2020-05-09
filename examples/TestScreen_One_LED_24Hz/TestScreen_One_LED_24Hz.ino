@@ -47,7 +47,7 @@ void loop() {
   
   //Tuning: Fixed way
   /*
-  rsd.setFrequency( 24 ); // Samsung S6 Edge 
+  rsd.setFrequency( 24 );
   */
 
   //Tuning: Analog way
