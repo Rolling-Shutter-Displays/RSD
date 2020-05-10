@@ -24,7 +24,7 @@ Rolling Shutter Display Library es una librería para Arduino UNO y semejantes, 
 Esta librería nos permite crear un RSD con tan solo un Arduino y un LED!
 
 ## Hardware
-Arduino ya trae incorporado un LED y de hecho es posible [construir un RSD con el mismo](youtube), por lo que en principio, un Arduino es todo lo que se necesita. Sin embargo para poder apreciar el fenómeno de una manera mas efectiva a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
+Arduino ya trae incorporado un LED y de hecho es posible construir un RSD con el mismo, por lo que en principio, un Arduino es todo lo que se necesita. Sin embargo, para poder apreciar el fenómeno de una manera mas efectiva a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
 
 ### Circuito mínimo
 ![minimal setup](media/Circuito_minimo_conjunto.png) 
@@ -42,7 +42,7 @@ Lista de componentes:
 - 1 Arduino
 - 1 LED RGB 5mm ánodo común (en lo posible difuso, si no añadiremos un difursor)
 - 3 resistencias 220 Ω
-- 1 Potenciómetro de entre 5 kΩ ~ 10 kΩ
+- 1 potenciómetro de entre 5 kΩ ~ 10 kΩ
 
 El LED RGB nos permitirá obtener además de los 3 colores del mismo (rojo, verde y azul), sus combinaciones; es decir, amarillo (rojo + verde), cian (verde + azul), magenta (azul + rojo) y blanco (rojo + verde + azul). Contando el negro como un color, este modo nos permite representar 8 colores. Las mismas consideraciones respecto al LED tenidas en cuenta en el circuito mínimo valen para este caso: un LED RGB no deja de ser un conjunto de 3 LEDs.   
 El potenciómetro por otro lado, proporciona un control más dinámico de la sintonía del RSD.
@@ -56,7 +56,7 @@ El potenciómetro por otro lado, proporciona un control más dinámico de la sin
 ![library installation](media/Instalar_libreria.png) 
 
 Una vez instalada la librería, vamos a cargar el primer Sketch para comprobar que todo esté en funcionamiento. Para ello vamos a Archivo > Ejemplos > RSD-master > TestScreen_One_LED (en el caso del circuito mínimo) o TestScreen_RGB_LED (en el caso del circuito recomendado).  
-Una vez que cargamos el Sketch al Arduino, el LED a simple vista debería parpadear. A medida que acercamos más y más la cámara de un celular al LED, deberíamos ser capaces de ver algo similar a los siguientes patrones:
+Una vez que cargamos el Sketch, el LED a simple vista debería parpadear. A medida que acercamos más y más la cámara de un celular al LED, deberíamos ser capaces de ver algo similar a los siguientes patrones:
 
 [<img width='20%' src='media/TestScreen_One_LED.jpg'/>](media/TestScreen_One_LED.jpg "Test Screen One")
 [<img width='20%' src='media/TestScreen_RGB_LED.jpg'/>](media/TestScreen_RGB_LED.jpg "Test Screen RGB")
@@ -107,9 +107,16 @@ Cada cámara tiene distinta frecuencia y las variaciones pueden ser mínimas del
 En el caso del ejemplo TestScreen_One_LED, el ajuste lo realizaremos a tráves del puerto serie. Para ello en el IDE de Arduino vamos a Herramientas > Monitor serie. Una vez allí ingresamos la frecuencia, por ejemplo `30.002` y pulsamos enter.  
 En el caso del ejemplo TestScreen_RGB_LED este ajuste lo realizaremos a través del potenciomentro. En el monitor serie muestra la frecuencia a la que actualmente está operando el RSD y la resolución en líneas del mismo.   
 
----
-Enjoy!  
-Made with ❤ by derfaq and the Rolling Shutter Displays Team
+## Explora  
+Rolling Shutter Display Library viene con varios ejemplos que generan imágenes y animaciones que se encuentran en Archivo > Ejemplos > RSD-master > 
+
+
 ---
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2020 Facundo Daguerre, esta documentación está bajo <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional</a>.
+
+---
+
+Made with ❤ by derfaq and the Rolling Shutter Displays Team 
+
+---
