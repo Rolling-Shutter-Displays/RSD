@@ -24,9 +24,11 @@ Rolling Shutter Display Library es una librería para Arduino UNO y semejantes, 
 Esta librería nos permite crear un RSD con tan solo un Arduino y un LED!
 
 ## Hardware
+
 Arduino ya trae incorporado un LED y de hecho es posible construir un RSD con el mismo, por lo que en principio, un Arduino es todo lo que se necesita. Sin embargo, para poder apreciar el fenómeno de una manera mas efectiva a través de la cámara de un celular por ejemplo, es conveniente usar un LED de alto brillo y que esté al alcance ***lo mas cercano posible de la cámara***.
 
 ### Circuito mínimo
+
 ![minimal setup](media/Circuito_minimo_conjunto.png) 
 
 El circuito mínimo es un LED conectado a *cualquiera* de los pins del Arduino con su correspondiente resistencia limitadora de corriente. 
@@ -35,6 +37,7 @@ Otra cuestión a tener en cuenta es la orientación del LED. En el circuito prop
 La sintonía del RSD en este esquema la haremos a través del puerto serie.
 
 ### Circuito recomendado
+
 ![recommended setup](media/Circuito_recomendado_conjunto.png) 
 
 Lista de componentes:
@@ -108,15 +111,25 @@ En el caso del ejemplo TestScreen_One_LED, el ajuste lo realizaremos a tráves d
 En el caso del ejemplo TestScreen_RGB_LED este ajuste lo realizaremos a través del potenciomentro. En el monitor serie muestra la frecuencia a la que actualmente está operando el RSD y la resolución en líneas del mismo.   
 
 ## Explora  
-Rolling Shutter Display Library viene con varios ejemplos que generan imágenes y animaciones que se encuentran en Archivo > Ejemplos > RSD-master > 
+
+Rolling Shutter Display Library viene con varios ejemplos que generan imágenes y animaciones, estos se encuentran en Archivo > Ejemplos > RSD-master > ...  
+
+| CopyBackground       | Filling              | Animation            |
+| :------------------: | :------------------: | :------------------: |
+| [<img width='100%' src='https://i.ytimg.com/vi/pxOb_LTTh-k/0.jpg'/>](https://youtu.be/pxOb_LTTh-k)    | [<img width='100%' src='https://i.ytimg.com/vi/9zj89XnVqRI/0.jpg'/>](https://youtu.be/9zj89XnVqRI) | [<img width='100%' src='https://i.ytimg.com/vi/mH6nSG8UHA0/0.jpg'/>](https://youtu.be/mH6nSG8UHA0) |    
+
+Esto ejemplos muestran distintas funciones y modos de empleo de la librería. Por el momento no se encuentra disponible una documentación detallada de la misma (TODO: doxygen like documentation).  
+El código y los ejemplos estan orientados a mostrar la estructura del programa y varios de estos métodos y funciones. Happy Hacking!
+
+Nos gustaría saber si estas usando RSD, con que cámara y a que frecuencia, tus imagenes y experiencias, sugerencias e inquietudes. Contáctanos en redes sociales:   
+[Instagram @rollingshutterdisplays](https://www.instagram.com/rollingshutterdisplays/)   
+[Rolling Shutter Displays Pagina Facebook](https://www.facebook.com/RollingShutterDisplays)   
+[Rolling Shutter Displays Grupo Facebook](https://www.facebook.com/groups/rollingshutterdisplays/)  
+[Rolling Shutter Displays Canal YouTube](https://www.youtube.com/channel/UCgTTSPkXvOK5V8WAWk7dh2A)
 
 
 ---
 
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2020 Facundo Daguerre, esta documentación está bajo <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional</a>.
-
----
-
-Made with ❤ by derfaq and the Rolling Shutter Displays Team 
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2020 Hecho con ❤ por derfaq para Rolling Shutter Displays, esta documentación está bajo <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional</a>.
 
 ---

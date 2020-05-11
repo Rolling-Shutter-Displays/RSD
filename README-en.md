@@ -104,12 +104,28 @@ The compromise between a good fade and the loss of light power must be taken int
 
 To get the most static image possible we must tune the RSD. Cellular cameras generally work at 30 frames per second, that is to say 30 Hz, but they are usually also at 24 frames / second (24 Hz). 
 Each camera has a different frequency and the variations can be minimal on the order of + -0.0001 Hz.   
-In the case of the TestScreen_One_LED example, the adjustment will be made through the serial port. For this, in the Arduino IDE we go to Tools> Serial Monitor. Once there we enter the frequency, for example `30.002` and press enter.   
+In the case of the TestScreen_One_LED example, the adjustment will be made through the serial port. For this, in the Arduino IDE go to Tools> Serial Monitor. Once there enter the frequency, for example `30.002` and press enter.   
 In the case of the TestScreen_RGB_LED example we will make this adjustment through the potentiometer. The serial monitor shows the frequency at which the RSD is currently operating and its resolution in lines.   
 
----
-Enjoy!  
-Made with ❤ by derfaq and the Rolling Shutter Displays Team
+## Explore  
+
+Rolling Shutter Display Library comes with several examples that generate images and animations, these are found in File > Examples > RSD-master > ... 
+
+| CopyBackground       | Filling              | Animation            |
+| :------------------: | :------------------: | :------------------: |
+| [<img width='100%' src='https://i.ytimg.com/vi/pxOb_LTTh-k/0.jpg'/>](https://youtu.be/pxOb_LTTh-k)    | [<img width='100%' src='https://i.ytimg.com/vi/9zj89XnVqRI/0.jpg'/>](https://youtu.be/9zj89XnVqRI) | [<img width='100%' src='https://i.ytimg.com/vi/mH6nSG8UHA0/0.jpg'/>](https://youtu.be/mH6nSG8UHA0) |    
+
+These examples show different functions and ways of using the library. At the moment a detailed documentation is not available (TODO: doxygen like documentation).   
+The code and examples are intended to show the structure of the program and several of these methods and functions. Happy Hacking!
+
+We would like to know if you are using RSD, with which camera and at what frequency, your images and experiences, suggestions and concerns. Contact us on social networks:   
+[Instagram @rollingshutterdisplays](https://www.instagram.com/rollingshutterdisplays/)   
+[Rolling Shutter Displays Pagina Facebook](https://www.facebook.com/RollingShutterDisplays)   
+[Rolling Shutter Displays Grupo Facebook](https://www.facebook.com/groups/rollingshutterdisplays/)  
+[Rolling Shutter Displays Canal YouTube](https://www.youtube.com/channel/UCgTTSPkXvOK5V8WAWk7dh2A)
+
 ---
 
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2020 Facundo Daguerre, this documentation is under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">License Crative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2020 Made with ❤ by derfaq for Rolling Shutter Displays, this documentation is under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">License Crative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</a>.
+
+---
