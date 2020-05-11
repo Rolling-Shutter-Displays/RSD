@@ -118,8 +118,7 @@ Rolling Shutter Display Library viene con varios ejemplos que generan imágenes 
 | :------------------: | :------------------: | :------------------: |
 | [<img width='100%' src='https://i.ytimg.com/vi/pxOb_LTTh-k/0.jpg'/>](https://youtu.be/pxOb_LTTh-k)    | [<img width='100%' src='https://i.ytimg.com/vi/9zj89XnVqRI/0.jpg'/>](https://youtu.be/9zj89XnVqRI) | [<img width='100%' src='https://i.ytimg.com/vi/mH6nSG8UHA0/0.jpg'/>](https://youtu.be/mH6nSG8UHA0) |    
 
-Esto ejemplos muestran distintas funciones y modos de empleo de la librería. Por el momento no se encuentra disponible una documentación detallada de la misma (TODO: doxygen like documentation).  
-
+Esto ejemplos muestran distintas funciones y modos de empleo de la librería. Por el momento no se encuentra disponible una documentación detallada de la misma (TODO: [doxygen](http://www.doxygen.nl/)).  
 El código y los ejemplos estan orientados a mostrar la estructura del programa y varios de estos métodos y funciones. Happy Hacking!
 
 Nos gustaría saber si estas usando RSD, con que cámara y a que frecuencia, tus imagenes y experiencias, sugerencias e inquietudes. Contáctanos en redes sociales:   
