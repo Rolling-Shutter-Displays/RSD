@@ -30,8 +30,8 @@ Arduino already has a built-in LED and in fact it is possible to build an RSD wi
 ![minimal setup](media/Circuito_minimo_conjunto.png) 
 
 The minimal circuit is an LED connected to *any* of the Arduino's pins with its corresponding current limiting resistor.    
-The resistance value will depend on the color of the LED and the current that we want to circulate through it. Keep in mind that the maximum current that an Arduino pin can supply is around 40 mA, but it is recommended not to exceed 20 mA. For most cases, a 220 Ω resistor it will be enough.    
-Another issue to consider is the orientation of the LED. In the proposed circuit the cathode is connected to the common (GND), this configuration is known as the common cathode. In 5mm LEDs, the cathode is identified by a flat mark on the package, and its *terminal is shorter* than the anode. There would be no problem connecting it the other way around, that is, in the common anode configuration (in this case the anode is connected to positive VCC, and the cathode through the resistance to the Arduino pin); in any case, when programming we will have to tell the library what configuration it is in.
+The resistance value will depend on the color of the LED and the current that we want to circulate through it. Keep in mind that the maximum current that an Arduino pin can supply is around 40 mA, but it is recommended not to exceed 20 mA. For most cases, a 220 Ω resistor it will be enough. For a more precise calculation we recommend this [resistance calculator for leds](https://www.inventable.eu/paginas/LedResCalculatorSp/LedResCalculatorSp.html).        
+Another issue to consider is the orientation of the LED. In the proposed circuit the cathode is connected to the common (GND), this configuration is known as the common cathode. In 5mm LEDs, the cathode is identified by a flat mark on the package, and its *terminal is shorter* than the anode. There would be no problem connecting it the other way around, that is, in the common anode configuration (in this case the anode is connected to positive VCC, and the cathode through the resistance to the Arduino pin); in any case, when programming we will have to tell the library what configuration it is in.    
 We will tune the RSD in this scheme through the serial port.
 
 ### Recommended circuit
@@ -51,7 +51,7 @@ The potentiometer on the other hand, provides more dynamic control of the tuning
 
 - Download this repository
 - In the Arduino development environment (IDE), go to Program > Include Library > Add .ZIP Library
-- We look for the Zip file of the repository that we just downloaded and click on open
+- Look for the Zip file of the repository that just downloaded and click on open
 
 ![library installation](media/Instalar_libreria.png) 
 
@@ -87,8 +87,8 @@ Each camera may or may not modify different parameters in the different modes it
 
 #### Brightness 
 
-It may be the case that the camera does not allow to control the ISO or, for example, it does allow to control it in the professional camera mode but not in the video mode. The solution in those cases is to increase the power of the LED.   
-Increasing the power in addition to improving the definition, also allows the use of better diffusers (see below) and increases the area and distance at which the RSD image can be observed. Of course there is a limit, after a certain threshold the camera becomes saturated and any color looks white. 
+It may be the case that the camera does not allow to control the ISO or, for example, it does allow to control it in the professional camera mode but not in the video mode. The solution in those cases is to increase the power of the LED.       
+Increasing the power in addition to improving the definition, also allows the use of better diffusers (see below) and increases the area and distance at which the RSD image can be observed. Of course there is a limit, after a certain threshold the camera becomes saturated and any color looks white.  
 To increase power, the proposed circuit must be modified, a topic that is beyond the scope of this document.    
 
 #### Diffuser
@@ -104,7 +104,7 @@ The compromise between a good fade and the loss of light power must be taken int
 
 To get the most static image possible we must tune the RSD. Cellular cameras generally work at 30 frames per second, that is to say 30 Hz, but they are usually also at 24 frames / second (24 Hz). Each camera has a different frequency and the variations can be minimal on the order of + -0.0001 Hz.   
 
-In the case of the TestScreen_One_LED example, the adjustment will be made through the serial port. For this, in the Arduino IDE go to Tools> Serial Monitor. Once there enter the frequency, for example `30.002` and press enter.   
+In the case of the TestScreen_One_LED example, the adjustment will be made through the serial port. For this, in the Arduino IDE go to Tools > Serial Monitor. Once there enter the frequency, for example `30.002` and press enter.   
 In the case of the TestScreen_RGB_LED example we will make this adjustment through the potentiometer. The serial monitor shows the frequency at which the RSD is currently operating and its resolution in lines.   
 
 ## Explore  
