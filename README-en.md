@@ -116,13 +116,14 @@ Rolling Shutter Display Library comes with several examples that generate images
 | [<img width='100%' src='https://i.ytimg.com/vi/pxOb_LTTh-k/0.jpg'/>](https://youtu.be/pxOb_LTTh-k)    | [<img width='100%' src='https://i.ytimg.com/vi/9zj89XnVqRI/0.jpg'/>](https://youtu.be/9zj89XnVqRI) | [<img width='100%' src='https://i.ytimg.com/vi/mH6nSG8UHA0/0.jpg'/>](https://youtu.be/mH6nSG8UHA0) |    
 
 These examples show different functions and ways of using the library. At the moment a detailed documentation is not available (TODO: doxygen like documentation).   
+
 The code and examples are intended to show the structure of the program and several of these methods and functions. Happy Hacking!
 
 We would like to know if you are using RSD, with which camera and at what frequency, your images and experiences, suggestions and concerns. Contact us on social networks:   
 [Instagram @rollingshutterdisplays](https://www.instagram.com/rollingshutterdisplays/)   
-[Rolling Shutter Displays Pagina Facebook](https://www.facebook.com/RollingShutterDisplays)   
-[Rolling Shutter Displays Grupo Facebook](https://www.facebook.com/groups/rollingshutterdisplays/)  
-[Rolling Shutter Displays Canal YouTube](https://www.youtube.com/channel/UCgTTSPkXvOK5V8WAWk7dh2A)
+[Rolling Shutter Displays Facebook Page](https://www.facebook.com/RollingShutterDisplays)   
+[Rolling Shutter Displays Facebook Group](https://www.facebook.com/groups/rollingshutterdisplays/)  
+[Rolling Shutter Displays YouTube Channel](https://www.youtube.com/channel/UCgTTSPkXvOK5V8WAWk7dh2A)
 
 ---
 
