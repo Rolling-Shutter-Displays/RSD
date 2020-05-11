@@ -16,7 +16,7 @@ YouTube videos
 [<img width='20%' src='https://i.ytimg.com/vi/9zj89XnVqRI/0.jpg'/>](https://youtu.be/9zj89XnVqRI)   
 
 ### [en]    
-Documentación en [español aquí](#es)
+Tutorial en [español aquí](#es)
 
 ## What is a Rolling Shutter Display (RSD)?
 
@@ -136,7 +136,7 @@ We would like to know if you are using RSD, with which camera and at what freque
  
 
 ### [es]    
-Documentation in [English here](#en)
+Tutorial in [English here](#en)
 
 ## ¿Qué es un Rolling Shutter Display (RSD)?
 
