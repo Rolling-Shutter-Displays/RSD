@@ -29,7 +29,7 @@ Arduino already has a built-in LED and in fact it is possible to build an RSD wi
 ### Minimal circuit
 ![minimal setup](media/Circuito_minimo_conjunto.png) 
 
-The minimal circuit is an LED connected to *any* of the Arduino's pins with its corresponding current limiting resistor.
+The minimal circuit is an LED connected to *any* of the Arduino's pins with its corresponding current limiting resistor.    
 The resistance value will depend on the color of the LED and the current that we want to circulate through it. Keep in mind that the maximum current that an Arduino pin can supply is around 40 mA, but it is recommended not to exceed 20 mA. For most cases, a 220 Ω resistor it will be enough.    
 Another issue to consider is the orientation of the LED. In the proposed circuit the cathode is connected to the common (GND), this configuration is known as the common cathode. In 5mm LEDs, the cathode is identified by a flat mark on the package, and its *terminal is shorter* than the anode. There would be no problem connecting it the other way around, that is, in the common anode configuration (in this case the anode is connected to positive VCC, and the cathode through the resistance to the Arduino pin); in any case, when programming we will have to tell the library what configuration it is in.
 We will tune the RSD in this scheme through the serial port.
@@ -44,7 +44,7 @@ Component list:
 - 3 resistors 220 Ω
 - 1 potentiometer between 5 kΩ ~ 10 kΩ
 
-The RGB LED will allow us to obtain, in addition to its 3 colors (red, green and blue), its combinations; that is, yellow (red + green), cyan (green + blue), magenta (blue + red), and white (red + green + blue). Counting black as a color, this mode allows us to represent 8 colors. The same considerations regarding the LED taken into account in the minimal circuit apply in this case: an RGB LED is still a set of 3 LEDs.
+The RGB LED will allow us to obtain, in addition to its 3 colors (red, green and blue), its combinations; that is, yellow (red + green), cyan (green + blue), magenta (blue + red), and white (red + green + blue). Counting black as a color, this mode allows us to represent 8 colors. The same considerations regarding the LED taken into account in the minimal circuit apply in this case: an RGB LED is still a set of 3 LEDs.  
 The potentiometer on the other hand, provides more dynamic control of the tuning of the RSD.
 
 ## Software: Library installation
@@ -87,23 +87,23 @@ Each camera may or may not modify different parameters in the different modes it
 
 #### Brightness 
 
-It may be the case that the camera does not allow to control the ISO or, for example, it does allow to control it in the professional camera mode but not in the video mode. The solution in those cases is to increase the power of the LED.
-Increasing the power in addition to improving the definition, also allows the use of better diffusers (see below) and increases the area and distance at which the RSD image can be observed. Of course there is a limit, after a certain threshold the camera becomes saturated and any color looks white.
-To increase power, the proposed circuit must be modified, a topic that is beyond the scope of this document.
+It may be the case that the camera does not allow to control the ISO or, for example, it does allow to control it in the professional camera mode but not in the video mode. The solution in those cases is to increase the power of the LED.   
+Increasing the power in addition to improving the definition, also allows the use of better diffusers (see below) and increases the area and distance at which the RSD image can be observed. Of course there is a limit, after a certain threshold the camera becomes saturated and any color looks white. 
+To increase power, the proposed circuit must be modified, a topic that is beyond the scope of this document.    
 
 #### Diffuser
 
 [<img width='20%' src='media/ajustes/SinDifusor.png'/>](media/ajustes/SinDifusor.png)
 [<img width='20%' src='media/ajustes/Final.png'/>](media/ajustes/Final.png)  
 
-To get the colors to blend smoothly we need a good diffuser.
-The images above show an LED (RGB Clear) without and with diffuser, as you can see the difference is noticeable. In this case, a strip of kitchen paper was added, which turns out to be excellent for the desired effect. Another common material is silicone. There are LEDs whose encapsulation is a diffuser itself (RGB Diffused).
+To get the colors to blend smoothly we need a good diffuser.    
+The images above show an LED (RGB Clear) without and with diffuser, as you can see the difference is noticeable. In this case, a strip of kitchen paper was added, which turns out to be excellent for the desired effect. Another common material is silicone. There are LEDs whose encapsulation is a diffuser itself (RGB Diffused). 
 The compromise between a good fade and the loss of light power must be taken into account with the consequent loss of definition in the image.
 
 ### RSD - Tuning
 
-To get the most static image possible we must tune the RSD. Cellular cameras generally work at 30 frames per second, that is to say 30 Hz, but they are usually also at 24 frames / second (24 Hz). 
-Each camera has a different frequency and the variations can be minimal on the order of + -0.0001 Hz.   
+To get the most static image possible we must tune the RSD. Cellular cameras generally work at 30 frames per second, that is to say 30 Hz, but they are usually also at 24 frames / second (24 Hz). Each camera has a different frequency and the variations can be minimal on the order of + -0.0001 Hz.   
+
 In the case of the TestScreen_One_LED example, the adjustment will be made through the serial port. For this, in the Arduino IDE go to Tools> Serial Monitor. Once there enter the frequency, for example `30.002` and press enter.   
 In the case of the TestScreen_RGB_LED example we will make this adjustment through the potentiometer. The serial monitor shows the frequency at which the RSD is currently operating and its resolution in lines.   
 
