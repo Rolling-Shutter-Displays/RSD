@@ -75,7 +75,7 @@ public:
         return true;
     }
     
-    inline void fill( uint16_t x0 , uint16_t x1 ) {
+    inline void fill( int16_t x0 , int16_t x1 ) {
         
         if ( x1 > x0 ) {
             

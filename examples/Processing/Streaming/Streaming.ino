@@ -44,10 +44,10 @@ void loop() {
   //Run the engine
   rsd.update();
   
-  // Tuning: Analog way
-  int tick = map( analogRead( A0 ), 0 , 1023 , rsd.getLowerTick() , rsd.getHigherTick() );
-  rsd.setTick( tick );
-  rsd.setFine( tick );
+  //Tuning: Analog way
+  float freq = 30.0 - ( ( (float)analogRead( A0 ) / 1023.0 ) - 0.5 );
+  rsd.setFrequency( freq );
+  
 }
 
 //Let's draw!

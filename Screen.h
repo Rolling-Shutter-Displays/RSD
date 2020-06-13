@@ -47,7 +47,7 @@ public:
         ( 0xAA & (1 << c) ) ? Blue->lineSafe( _pos ) : Blue->clearSafe( _pos ) ;
     }
     
-    void fill( uint16_t x0 , uint16_t x1,  colour c ) {
+    void fill( int16_t x0 , int16_t x1,  colour c ) {
         if ( x1 >= x0 ) {
             do {
                 line( x1 , c );
