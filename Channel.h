@@ -212,21 +212,57 @@ public:
         }
     }
     
+
+    //Preserve for backwards compatibility
     inline uint8_t * get() { 
         return buffer[ currentBuffer ]; 
     }
     
-    inline bool get( int16_t _pos ) {
-        if (_pos > width ) _pos = width;
-        if (_pos < 0 ) _pos = 0;
+    inline bool get( uint16_t _pos ) {
         return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
     }
     
-    inline bool getSafe( uint16_t _pos ) {
+    inline bool getSafe( int16_t _pos ) {
         if (_pos > width ) _pos = width;
         if (_pos < 0 ) _pos = 0;
         return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
     }
+
+    /*
+    //Back
+
+    inline uint8_t * getBackBuffer() { 
+        return buffer[ currentBuffer ]; 
+    }
+    
+    inline bool getBackBuffer( uint16_t _pos ) {
+        return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
+    }
+    
+    inline bool getSafeBackBuffer( int16_t _pos ) {
+        if (_pos > width ) _pos = width;
+        if (_pos < 0 ) _pos = 0;
+        return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
+    }
+
+    //Front
+
+    inline uint8_t * getFrontBuffer() { 
+        return buffer[ currentBuffer - 1 ]; 
+    }
+    
+    inline bool getFrontBuffer( uint16_t _pos ) {
+        return *( buffer[ currentBuffer - 1 ] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
+    }
+    
+    inline bool getSafeFrontBuffer( int16_t _pos ) {
+        if (_pos > width ) _pos = width;
+        if (_pos < 0 ) _pos = 0;
+        return *( buffer[ currentBuffer - 1 ] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
+    }
+    */
+
+
     
     inline void invert() {
         for( uint8_t i = 0 ; i < bwidth ; i++ ) {
