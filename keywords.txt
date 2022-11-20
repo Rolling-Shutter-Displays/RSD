@@ -14,6 +14,7 @@ update	KEYWORD2
 line	KEYWORD2
 fill	KEYWORD2
 clear	KEYWORD2
+copyBackground	KEYWORD2
 get	KEYWORD2
 lineSafe	KEYWORD2
 fillSafe	KEYWORD2

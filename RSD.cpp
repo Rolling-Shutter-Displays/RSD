@@ -166,7 +166,7 @@ void RSD::initTimer(){
     TCCR0A |= ( 1<<WGM01 );
     
     //Prescaler configuration (from https://github.com/SpenceKonde/ATTinyCore/blob/master/avr/cores/tiny/Tone.cpp)
-    uint32_t ocr = F_CPU / ( fcam * width ) ;
+    uint32_t ocr = F_CPU / ( freq * width ) ;
     uint8_t prescalarbits = 0b001;  // ck/1
     
     if (ocr > 256) {
@@ -228,12 +228,13 @@ void RSD::begin( float _freq , uint8_t _bwidth ) {
     bwidth = _bwidth;
     width = _bwidth*8;
     
+    /*
     RSD::setFrequency( _freq );
     freq = (uint8_t) _freq;
-    /*
+    */
     thick = F_CPU / ( _freq * width );
     fine = thick;
-    */
+    
 
     //Initialize the timer
 	RSD::initTimer();
