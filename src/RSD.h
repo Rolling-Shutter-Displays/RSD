@@ -1,6 +1,6 @@
 /*
 RSD.h - A library to make rolling shutter displays
-Copyright (c) 2018-2020 Facundo Daguerre (a.k.a derfaq).  All right reserved.
+Copyright (c) 2018-2022 Facundo Daguerre (a.k.a derfaq).  All right reserved.
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
@@ -23,19 +23,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   #include "WProgram.h"
 #endif
 
-#include "Channel.h"
-#include "Screen.h"
-
-#define MAX_CHANNELS 12 //Maybe more, depends on a freq cam, resolution and f_cpu
-
+#define MAX_CHANNELS 12 // This needs to be experimented. Maybe more, depends on a freq cam, resolution and f_cpu...
 
 extern volatile uint32_t frameCount;
 extern volatile uint32_t frameLost; 
 
-//Callback function types
+// Callback function types
 extern "C" {
   typedef void ( *callbackFunction )( void );
 }
+
+#include "Channel.h"
+#include "Screen.h"
 
 class RSD {
 
@@ -43,7 +42,7 @@ public:
         
     // Begin function. Needs to be called in the setup()
         
-    static void begin( float f_cam , uint8_t _bwidth );
+    static void begin( float _freq , uint8_t _bwidth );
         
     // Attach function.
         
@@ -58,6 +57,15 @@ public:
     static void attachDraw( callbackFunction newFunction );
 
     // Tunning functions
+
+    static void setFrequency( float freq );
+
+    static float getFrequency();
+    
+    static uint32_t getPeriod();
+
+
+    static bool setThick( uint16_t _thick ) ;
     
     static uint16_t getThick();
     
@@ -65,32 +73,23 @@ public:
 
     static uint16_t getHigherThick();
 
+
+    static bool setFine( uint16_t _fine );
+
     static uint16_t getFine();
 
     static uint16_t getLowerFine();
 
     static uint16_t getHigherFine();
 
-    static void setFrequency( float freq );
 
-    static bool setThick( int _thick ) ;
-
-    static bool setFine( int _fine );
-
-    static uint32_t getPeriod();
-
-    static float getFrequency();
-        
     static void shiftPhase( int _phase );
-    
-    static void switchOn();
-    
-    static void switchOff();
-        
-        
+
+    // TODO: static void disconect()
+           
 private:
         
-    //Timer one initialization method
+    // Timer one initialization method
     static void initTimer();
         
 };

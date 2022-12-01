@@ -23,8 +23,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   #include "WProgram.h"
 #endif
 
-#include "Channel.h" 
-
 class Screen {
 
 public:
@@ -33,113 +31,90 @@ public:
         Red = red;
         Green = green;
         Blue = blue;
+
         width = Red->width;
+        bwidth = Red->bwidth;
     }
     
-    void line( uint16_t _pos , colour c ) { 
+    inline void line( uint16_t _pos , colour c ) { 
         ( 0xCC & (1 << c) ) ? Red->line( _pos )   : Red->clear( _pos ) ;
         ( 0xF0 & (1 << c) ) ? Green->line( _pos ) : Green->clear( _pos ) ;
         ( 0xAA & (1 << c) ) ? Blue->line( _pos )  : Blue->clear( _pos ) ;
     }
     
-    bool lineSafe( int16_t _pos , colour c ) { 
-        ( _pos > 0 ) ? _pos =  _pos % width : _pos = 0;
+    inline bool lineSafe( int16_t _pos , colour c ) { 
+        if ( ( _pos < 0 )||( _pos >= (int16_t)width ) ) return false;
         line( (uint16_t)_pos , c );
+        return true;
     }
     
-    //Review
-    
-    void fill( int16_t x0 , int16_t x1,  colour c ) {
-        if ( x1 >= x0 ) {
-            do {
-                line( x1 , c );
-                x1--;
-            } while( x1 > x0 );
-            
+    inline void fill( int16_t x0 , int16_t x1 , colour c ) {
+        if ( x1 > x0 ) {
+            do { line( x1 , c ); x1--; } while( x1 > x0 );
+            line( x0 , c );
+        } else if( x1 == x0 ) {
             line( x0 , c );
         } else {
-            do {
-                line( x0 , c );
-                x0--;
-            } while( x0 > x1 );
-            
+            do { line( x0 , c ); x0--; } while( x0 > x1 );
             line( x1 , c );
         }
     }
     
-    // Seems to be ok, fills always from x0 to x1
-    
-    bool fillSafe( int16_t x0 , int16_t x1,  colour c ) {
-        
-        if( ( x0 > width ) && ( x1 > width ) ) return false;
-        if( ( x0 < 0 ) && ( x1 < 0 ) ) return false;
-        
-        x0 = constrain( x0 , 0 , width );
-        x1 = constrain( x1 , 0 , width );
-        
-        if( x0 < x1 ) {
-            do { 
-                line( x0 , c ); 
-                x0++; 
-            } while( x0 < x1 );
+    inline bool fillSafe( int16_t x0 , int16_t x1,  colour c ) {
+        if ( ( x0 < 0 ) && ( x1 < 0 ) ) return false;
+        if ( ( x0 >= (int16_t)width ) && ( x1 > (int16_t)width ) ) return false;
+
+        if ( x1 > x0 ) {
+            if ( x1 >= (int16_t)width ) x1 = width-1;
+            if ( x0 < 0 ) x0 = 0;
+            
+            do { line( x1 , c ); x1--; } while( x1 > x0 );
+            line( x0 , c );
+        } else if( x1 == x0 ) {
+            if ( ( x1 > 0 ) && ( x1 < (int16_t)width ) ) line( x1 , c );
+        } else {
+            if ( x0 >= (int16_t)width ) x0 = width-1;
+            if ( x1 < 0 ) x1 = 0;
+            
+            do { line( x0 , c ); x0--; } while( x0 > x1 );
+            line( x1 , c );
         }
-        
-        if( x0 > x1 ) {
-            do { 
-                line( x0 , c ); 
-                x0++; 
-            } while( x0 <= width );
-            
-            x0 = 0;
-            
-            do { 
-                line( x0 , c ); 
-                x0++; 
-            } while( x0 < x1 );
-        }
-            
-        line( x1 , c );
-    
         return true;
     }
     
-    void fill( colour c = WHITE ) {
+    inline void fill( colour c = WHITE ) {
         ( 0xCC & (1 << c) ) ? Red->fill() : Red->clear() ;
         ( 0xF0 & (1 << c) ) ? Green->fill() : Green->clear() ;
         ( 0xAA & (1 << c) ) ? Blue->fill() : Blue->clear() ;
     }
     
-    void clear( uint16_t x0 ) {
+    inline void clear( uint16_t x0 ) {
         line( x0 , BLACK );
     }
     
-    void clear( uint16_t x0 , uint16_t x1 ) {
+    inline void clear( uint16_t x0 , uint16_t x1 ) {
         fill( x0 , x1 , BLACK );
     }
     
-    bool clearSafe( int16_t x0 ) {
-        
-        lineSafe( x0 , BLACK );
-        return true; //TODO
+    inline bool clearSafe( int16_t x0 ) {
+        return lineSafe( x0 , BLACK );
     }
     
-    bool clearSafe( int16_t x0 , int16_t x1 ) {
-        fillSafe( x0 , x1 , BLACK );
-        return true; //TODO
+    inline bool clearSafe( int16_t x0 , int16_t x1 ) {
+        return fillSafe( x0 , x1 , BLACK );
     }
     
-    void clear( ) {
+    inline void clear( ) {
         fill( BLACK );
     }
     
-    
-    void copyBackground() {
+    inline void copyBackground() {
         Red->copy( Red );
         Green->copy( Green );
         Blue->copy( Blue );
     }
     
-    colour get( uint16_t _pos ) { 
+    inline colour get( uint16_t _pos ) { 
         uint8_t c = 0x00;
         if ( Red->get( _pos ) ) c += 2;
         if ( Green->get( _pos ) ) c += 4;
@@ -147,7 +122,7 @@ public:
         return (colour)c;
     }
     
-    colour getSafe( int16_t _pos ) { 
+    inline colour getSafe( int16_t _pos ) { 
         uint8_t c = 0x00;
         if ( Red->getSafe( _pos ) ) c += 2;
         if ( Green->getSafe( _pos ) ) c += 4;
@@ -156,11 +131,11 @@ public:
     }
     
 private:
-    
     Channel *Red;
     Channel *Green;
     Channel *Blue;
-    int16_t width;
+
+    uint16_t bwidth , width;
 };
 
 #endif

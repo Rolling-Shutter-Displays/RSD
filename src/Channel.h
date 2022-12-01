@@ -1,6 +1,6 @@
 /*
 Channel.h - Part of RSD library.
-Copyright (c) 2018-2020 Facundo Daguerre (a.k.a der faq).  All right reserved.
+Copyright (c) 2018-2022 Facundo Daguerre (a.k.a der faq).  All right reserved.
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
@@ -30,111 +30,82 @@ class Channel {
 
 public:
     
-    //Make up variables
+    // Make up variables
     uint8_t* pinPort;
     uint8_t pinMask;
     common_type ledType;
+
     uint8_t bwidth;
     uint16_t width;
     
-    //Double buffer video memory
+    // Double buffer video memory
     uint8_t* buffer[ 2 ];
     
-    //Swap variables
+    // Swap variables
     uint8_t currentBuffer;
     uint8_t* currentBufferP = &currentBuffer;
     
-    //Constructor
+    // Constructor
     Channel( uint8_t pin , common_type commonType , uint8_t _bwidth ) {
-    
         ledType = commonType;
     
         pinPort = (uint8_t*)portOutputRegister( digitalPinToPort( pin ) );
         pinMask = digitalPinToBitMask( pin );
         pinMode( pin , OUTPUT );
-    
+
         bwidth = _bwidth;
-        width = (_bwidth*8) - 1;
-    
-        // Allocate and clean memory for buffers
-        buffer[0] = (uint8_t*)calloc( _bwidth , sizeof(uint8_t) );
-        buffer[1] = (uint8_t*)calloc( _bwidth , sizeof(uint8_t) ); 
+        width = 8*width;
+
+        // Allocate and clean memory for buffers | TODO: Static
+        buffer[0] = (uint8_t*)calloc( bwidth , sizeof(uint8_t) );
+        buffer[1] = (uint8_t*)calloc( bwidth , sizeof(uint8_t) );
     
     }
     
-    //Drawing primitives
+    // Drawing primitives
     
     inline void line( uint16_t _pos ) {
         *( buffer[currentBuffer] + _pos / 8 ) |= ( 1 << _pos % 8 );
     }
     
     inline bool lineSafe( int16_t _pos ) {
-        if (_pos > width ) return false;
-        if (_pos < 0 ) return false;
+        if ( ( _pos < 0 )||( _pos >= (int16_t)width ) ) return false;
         *( buffer[currentBuffer] + _pos / 8 ) |= ( 1 << _pos % 8 );
         return true;
     }
     
-    inline void fill( int16_t x0 , int16_t x1 ) {
-        
+    inline void fill( uint16_t x0 , uint16_t x1 ) {
         if ( x1 > x0 ) {
-            
-            do {
-                line( x1 );
-                x1--;
-            } while( x1 > x0 );
-            
+            do { line( x1 ); x1--; } while( x1 > x0 );
             line( x0 );
-            
         } else if( x1 == x0 ) {
-            
             line( x1 );
-            
         } else {
-            
-            do {
-                line( x0 );
-                x0--;
-            } while( x0 > x1 );
-            
+            do { line( x0 ); x0--; } while( x0 > x1 );
             line( x1 );
         }
     }
     
-    
     inline bool fillSafe( int16_t x0 , int16_t x1 ) { 
-        
         if ( ( x0 < 0 ) && ( x1 < 0 ) ) return false;
-        if ( ( x0 > width ) && ( x1 > width ) ) return false;
+        if ( ( x0 >= (int16_t)width ) && ( x1 >= (int16_t)width ) ) return false;
         
         if ( x1 > x0 ) {
-            
-            if ( x1 > width ) x1 = width;
+            if ( x1 >= (int16_t)width ) x1 = width-1;
             if ( x0 < 0 ) x0 = 0;
             
-            do {
-                line( x1 );
-                x1--;
-            } while( x1 > x0 );
-            
+            do { line( x1 ); x1--; } while( x1 > x0 );
             line( x0 );
-            
         } else if( x1 == x0 ) {
-            
-            if ( ( x1 > 0 ) && ( x1 < width ) ) line( x1 );
-            
+            if ( ( x1 > 0 ) && ( x1 < (int16_t)width ) ) line( x1 );
         } else {
-            
-            if ( x0 > width ) x0 = width;
+            if ( x0 >= (int16_t)width ) x0 = width-1;
             if ( x1 < 0 ) x1 = 0;
             
-            do {
-                line( x0 );
-                x0--;
-            } while( x0 > x1 );
-            
+            do { line( x0 ); x0--; } while( x0 > x1 );
             line( x1 );
         }
+        return true;
     }
     
     inline void fill() {
@@ -148,61 +119,41 @@ public:
     }
     
     inline bool clearSafe( int16_t _pos ) {
-        if (_pos > width ) return false;
-        if (_pos < 0 ) return false;
+        if ( (_pos >= (int16_t)width )||(_pos < 0 ) ) return false;
         *( buffer[currentBuffer] + _pos / 8 ) &= ~( 1 << _pos % 8 );
         return true;
     }
     
     inline void clear( uint16_t x0 , uint16_t x1 ) {
-        
         if ( x1 > x0 ) {
-            
-            do {
-                clear( x1 );
-                x1--;
-            } while( x1 > x0 );
-            
+            do { clear( x1 ); x1--; } while( x1 > x0 );
             clear( x0 );
-            
         } else if( x1 == x0 ) {
-            
             clear( x1 );
-            
         } else {
-            
-            do {
-                clear( x0 );
-                x0--;
-            } while( x0 > x1 );
-            
+            do { clear( x0 ); x0--; } while( x0 > x1 );
             clear( x1 );
         }
     }
     
-    inline void clearSafe( int16_t x0 , int16_t x1 ) { //TODO
+    inline bool clearSafe( int16_t x0 , int16_t x1 ) { 
+        if ( ( x0 < 0 ) && ( x1 < 0 ) ) return false;
+        if ( ( x0 >= (int16_t)width ) && ( x1 >= (int16_t)width ) ) return false;
         
         if ( x1 > x0 ) {
+            if ( x1 >= (int16_t)width ) x1 = width-1;
+            if ( x0 < 0 ) x0 = 0;
             
-            do {
-                clearSafe( x1 );
-                x1--;
-            } while( x1 > x0 );
-            
-            clearSafe( x0 );
-            
+            do { clear( x1 ); x1--; } while( x1 > x0 );
+            clear( x0 );
         } else if( x1 == x0 ) {
-            
-            clearSafe( x1 );
-            
+            if ( ( x1 > 0 ) && ( x1 < (int16_t)width ) ) clear( x1 );            
         } else {
-            
-            do {
-                clearSafe( x0 );
-                x0--;
-            } while( x0 > x1 );
-            
-            clearSafe( x1 );
+            if ( x0 >= (int16_t)width ) x0 = width;
+            if ( x1 < 0 ) x1 = 0;
+
+            do { clear( x0 ); x0--; } while( x0 > x1 );
+            clear( x1 );
         }
     }
     
@@ -211,9 +162,7 @@ public:
             *( buffer[currentBuffer] + i ) = 0x00;
         }
     }
-    
 
-    //Preserve for backwards compatibility
     inline uint8_t * get() { 
         return buffer[ currentBuffer ]; 
     }
@@ -223,46 +172,10 @@ public:
     }
     
     inline bool getSafe( int16_t _pos ) {
-        if (_pos > width ) _pos = width;
+        if (_pos >= (int16_t)width ) _pos = width-1;
         if (_pos < 0 ) _pos = 0;
         return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
     }
-
-    /*
-    //Back
-
-    inline uint8_t * getBackBuffer() { 
-        return buffer[ currentBuffer ]; 
-    }
-    
-    inline bool getBackBuffer( uint16_t _pos ) {
-        return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
-    }
-    
-    inline bool getSafeBackBuffer( int16_t _pos ) {
-        if (_pos > width ) _pos = width;
-        if (_pos < 0 ) _pos = 0;
-        return *( buffer[currentBuffer] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
-    }
-
-    //Front
-
-    inline uint8_t * getFrontBuffer() { 
-        return buffer[ currentBuffer - 1 ]; 
-    }
-    
-    inline bool getFrontBuffer( uint16_t _pos ) {
-        return *( buffer[ currentBuffer - 1 ] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
-    }
-    
-    inline bool getSafeFrontBuffer( int16_t _pos ) {
-        if (_pos > width ) _pos = width;
-        if (_pos < 0 ) _pos = 0;
-        return *( buffer[ currentBuffer - 1 ] + _pos / 8 ) & ( 1 << _pos % 8 ) ? true : false;
-    }
-    */
-
-
     
     inline void invert() {
         for( uint8_t i = 0 ; i < bwidth ; i++ ) {
@@ -283,7 +196,7 @@ public:
     }
     
 private:
-    
+
 };
 
 #endif
