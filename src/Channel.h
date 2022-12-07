@@ -54,7 +54,7 @@ public:
         pinMode( pin , OUTPUT );
 
         bwidth = _bwidth;
-        width = 8*width;
+        width = 8*bwidth;
 
         // Allocate and clean memory for buffers | TODO: Static
         buffer[0] = (uint8_t*)calloc( bwidth , sizeof(uint8_t) );
@@ -180,6 +180,24 @@ public:
     inline void invert() {
         for( uint8_t i = 0 ; i < bwidth ; i++ ) {
             *( buffer[currentBuffer] + i ) = ~(*( buffer[currentBuffer] + i ));
+        }
+    }
+
+    inline void invert( uint16_t x0 , uint16_t x1 ) {
+        if ( x1 > x0 ) {
+            do { 
+                get(x1) ? clear(x1) : line( x1 );
+                x1--; 
+            } while( x1 > x0 );
+            get(x0) ? clear(x0) : line( x0 );
+        } else if( x1 == x0 ) {
+            get(x1) ? clear(x1) : line( x1 );
+        } else {
+            do { 
+                get(x0) ? clear(x0) : line( x0 );
+                 x0--; 
+            } while( x0 > x1 );
+            get(x1) ? clear(x1) : line( x1 );
         }
     }
     

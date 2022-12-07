@@ -8,7 +8,7 @@ Channel	KEYWORD1
 Screen	KEYWORD1
 draw	KEYWORD1
 
-#Methods / functions
+# Methods / functions
 begin	KEYWORD2
 update	KEYWORD2
 line	KEYWORD2
@@ -21,6 +21,7 @@ fillSafe	KEYWORD2
 clearSafe	KEYWORD2
 getSafe	KEYWORD2
 copy	KEYWORD2
+invert	KEYWORD2
 attachChannel	KEYWORD2
 attachDraw	KEYWORD2
 getThick	KEYWORD2

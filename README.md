@@ -114,7 +114,7 @@ In the case of the TestScreen_RGB_LED example we will make this adjustment throu
 
 Rolling Shutter Display Library comes with several examples that generate images and animations, these are found in File > Examples > RSD-master > ... 
 
-| CopyBackground       | Filling              | Animation            |
+| Manantial            | Filling              | Animation            |
 | :------------------: | :------------------: | :------------------: |
 | [<img width='100%' src='https://i.ytimg.com/vi/pxOb_LTTh-k/0.jpg'/>](https://youtu.be/pxOb_LTTh-k)    | [<img width='100%' src='https://i.ytimg.com/vi/9zj89XnVqRI/0.jpg'/>](https://youtu.be/9zj89XnVqRI) | [<img width='100%' src='https://i.ytimg.com/vi/mH6nSG8UHA0/0.jpg'/>](https://youtu.be/mH6nSG8UHA0) |    
 
@@ -123,13 +123,12 @@ The code and examples are intended to show the structure of the program and seve
 
 We would like to know if you are using RSD, with which camera and at what frequency, your images and experiences, suggestions and concerns. Contact us on social networks:   
 [Instagram @rollingshutterdisplays](https://www.instagram.com/rollingshutterdisplays/)   
-[Rolling Shutter Displays Facebook Page](https://www.facebook.com/RollingShutterDisplays)   
-[Rolling Shutter Displays Facebook Group](https://www.facebook.com/groups/rollingshutterdisplays/)  
+[Rolling Shutter Displays Discord Group](https://discord.gg/QtXRhEbE4C)   
 [Rolling Shutter Displays YouTube Channel](https://www.youtube.com/channel/UCgTTSPkXvOK5V8WAWk7dh2A)
 
 ---
 
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2020 Made with ❤ by derfaq for Rolling Shutter Displays, this documentation is under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">License Crative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2022 Made with love and sacrifice, by derfaq for Rolling Shutter Displays, this documentation is under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">License Crative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</a>.
 
 ---
  
@@ -238,22 +237,21 @@ En el caso del ejemplo TestScreen_RGB_LED este ajuste lo realizaremos a través 
 
 Rolling Shutter Display Library viene con varios ejemplos que generan imágenes y animaciones, estos se encuentran en Archivo > Ejemplos > RSD-master > ...  
 
-| CopyBackground       | Filling              | Animation            |
+| Manantial            | Filling              | Animation            |
 | :------------------: | :------------------: | :------------------: |
 | [<img width='100%' src='https://i.ytimg.com/vi/pxOb_LTTh-k/0.jpg'/>](https://youtu.be/pxOb_LTTh-k)    | [<img width='100%' src='https://i.ytimg.com/vi/9zj89XnVqRI/0.jpg'/>](https://youtu.be/9zj89XnVqRI) | [<img width='100%' src='https://i.ytimg.com/vi/mH6nSG8UHA0/0.jpg'/>](https://youtu.be/mH6nSG8UHA0) |    
 
 Esto ejemplos muestran distintas funciones y modos de empleo de la librería. Por el momento no se encuentra disponible una documentación detallada de la misma (TODO: [doxygen](http://www.doxygen.nl/)).  
 El código y los ejemplos estan orientados a mostrar la estructura del programa y varios de estos métodos y funciones. Happy Hacking!
 
-Nos gustaría saber si estas usando RSD, con que cámara y a que frecuencia, tus imagenes y experiencias, sugerencias e inquietudes. Contáctanos en redes sociales:   
+Nos gustaría saber si estas usando RSD, con que cámara y a que frecuencia, tus imagenes, experiencias y experimentos. Contáctanos en redes sociales:   
 [Instagram @rollingshutterdisplays](https://www.instagram.com/rollingshutterdisplays/)   
-[Rolling Shutter Displays Pagina Facebook](https://www.facebook.com/RollingShutterDisplays)   
-[Rolling Shutter Displays Grupo Facebook](https://www.facebook.com/groups/rollingshutterdisplays/)  
-[Rolling Shutter Displays Canal YouTube](https://www.youtube.com/channel/UCgTTSPkXvOK5V8WAWk7dh2A)
+[Rolling Shutter Displays Discord](https://discord.gg/QtXRhEbE4C)
+[Rolling Shutter Displays YouTube](https://www.youtube.com/channel/UCgTTSPkXvOK5V8WAWk7dh2A)
 
 
 ---
 
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2020 Hecho con ❤ por derfaq para Rolling Shutter Displays, esta documentación está bajo <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />© 2018-2022 Hecho con amor y sacrificio, por derfaq para Rolling Shutter Displays, esta documentación está bajo <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional</a>.
 
 ---
